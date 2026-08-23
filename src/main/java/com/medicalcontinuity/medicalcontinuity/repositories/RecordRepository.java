@@ -1,4 +1,4 @@
-package com.medicalcontinuity.medicalcontinuity.repository;
+package com.medicalcontinuity.medicalcontinuity.repositories;
 
 import com.medicalcontinuity.medicalcontinuity.entity.Record;
 import org.springframework.data.jpa.repository.JpaRepository;
