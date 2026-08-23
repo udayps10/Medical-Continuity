@@ -1,4 +1,4 @@
-package com.medicalcontinuity.medicalcontinuity.repository;
+package com.medicalcontinuity.medicalcontinuity.repositories;
 
 import com.medicalcontinuity.medicalcontinuity.entity.Consent;
 import org.springframework.data.jpa.repository.JpaRepository;
