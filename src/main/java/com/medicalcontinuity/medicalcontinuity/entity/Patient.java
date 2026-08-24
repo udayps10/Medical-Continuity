@@ -22,9 +22,6 @@ public class Patient {
     @Column(nullable = false)
     private Gender gender;
 
-    @Column(name = "blood_group")
-    private String bloodGroup;
-
     @Column(columnDefinition = "TEXT")
     private String allergies;
 
@@ -51,9 +48,6 @@ public class Patient {
 
     public Gender getGender() { return gender; }
     public void setGender(Gender gender) { this.gender = gender; }
-
-    public String getBloodGroup() { return bloodGroup; }
-    public void setBloodGroup(String bloodGroup) { this.bloodGroup = bloodGroup; }
 
     public String getAllergies() { return allergies; }
     public void setAllergies(String allergies) { this.allergies = allergies; }
