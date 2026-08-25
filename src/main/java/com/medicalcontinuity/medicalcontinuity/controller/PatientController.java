@@ -42,25 +42,18 @@ public class PatientController {
         return ResponseEntity.ok(patientService.getVisits(patient.getId()));
     }
 
-    @GetMapping("/consents")
-    public ResponseEntity<List<Consent>> getMyConsents(@RequestHeader("Authorization") String auth) {
+    @PostMapping("/consent")
+    public ResponseEntity<Patient> grantConsent(@RequestHeader("Authorization") String auth) {
         Long userId = authService.getUserIdFromToken(auth.replace("Bearer ", ""));
         Patient patient = patientService.getPatientByUserId(userId).orElseThrow(() -> new RuntimeException("Patient not found"));
-        return ResponseEntity.ok(patientService.getConsents(patient.getId()));
+        return ResponseEntity.ok(patientService.grantConsent(patient.getId()));
     }
 
-    @PostMapping("/consent/{hospitalId}")
-    public ResponseEntity<Consent> grantConsent(@RequestHeader("Authorization") String auth, @PathVariable Long hospitalId) {
+    @DeleteMapping("/consent")
+    public ResponseEntity<Patient> revokeConsent(@RequestHeader("Authorization") String auth) {
         Long userId = authService.getUserIdFromToken(auth.replace("Bearer ", ""));
         Patient patient = patientService.getPatientByUserId(userId).orElseThrow(() -> new RuntimeException("Patient not found"));
-        return ResponseEntity.ok(patientService.grantConsent(patient.getId(), hospitalId));
-    }
-
-    @DeleteMapping("/consent/{hospitalId}")
-    public ResponseEntity<Consent> revokeConsent(@RequestHeader("Authorization") String auth, @PathVariable Long hospitalId) {
-        Long userId = authService.getUserIdFromToken(auth.replace("Bearer ", ""));
-        Patient patient = patientService.getPatientByUserId(userId).orElseThrow(() -> new RuntimeException("Patient not found"));
-        return ResponseEntity.ok(patientService.revokeConsent(patient.getId(), hospitalId));
+        return ResponseEntity.ok(patientService.revokeConsent(patient.getId()));
     }
 
     @GetMapping("/access-log")

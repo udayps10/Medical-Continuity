@@ -25,6 +25,9 @@ public class Patient {
     @Column(columnDefinition = "TEXT")
     private String allergies;
 
+    @Column(nullable = false)
+    private boolean consentGiven = false;
+
     public enum Gender {
         MALE, FEMALE, OTHER
     }
@@ -35,6 +38,7 @@ public class Patient {
         this.user = user;
         this.dob = dob;
         this.gender = gender;
+        this.consentGiven = false;
     }
 
     public Long getId() { return id; }
@@ -51,4 +55,7 @@ public class Patient {
 
     public String getAllergies() { return allergies; }
     public void setAllergies(String allergies) { this.allergies = allergies; }
+
+    public boolean isConsentGiven() { return consentGiven; }
+    public void setConsentGiven(boolean consentGiven) { this.consentGiven = consentGiven; }
 }

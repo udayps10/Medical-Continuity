@@ -1,5 +1,6 @@
 package com.medicalcontinuity.medicalcontinuity.service;
 
+import com.medicalcontinuity.medicalcontinuity.dto.UpdatePatientRequest;
 import com.medicalcontinuity.medicalcontinuity.entity.*;
 import com.medicalcontinuity.medicalcontinuity.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,6 @@ public class PatientService {
 
     @Autowired
     private RecordRepository recordRepository;
-
-    @Autowired
-    private ConsentRepository consentRepository;
 
     @Autowired
     private AccessLogRepository accessLogRepository;
@@ -46,39 +44,19 @@ public class PatientService {
         return visitRepository.findByPatientId(patientId);
     }
 
-    public List<Consent> getConsents(Long patientId) {
-        return consentRepository.findByPatientId(patientId);
-    }
-
-    public Consent grantConsent(Long patientId, Long hospitalId) {
+    public Patient grantConsent(Long patientId) {
         Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new RuntimeException("Patient not found"));
-        Hospital hospital = new Hospital();
-        hospital.setId(hospitalId);
-        Optional<Consent> existing = consentRepository.findByPatientIdAndHospitalId(patientId, hospitalId);
-        if (existing.isPresent()) {
-            Consent c = existing.get();
-            c.setActive(true);
-            c.setRevokedAt(null);
-            return consentRepository.save(c);
-        }
-        Consent consent = new Consent();
-        consent.setPatient(patient);
-        consent.setHospital(hospital);
-        return consentRepository.save(consent);
+        patient.setConsentGiven(true);
+        return patientRepository.save(patient);
     }
 
-    public Consent revokeConsent(Long patientId, Long hospitalId) {
-        Consent consent = consentRepository.findByPatientIdAndHospitalId(patientId, hospitalId)
-                .orElseThrow(() -> new RuntimeException("Consent not found"));
-        consent.setActive(false);
-        consent.setRevokedAt(java.time.LocalDateTime.now());
-        return consentRepository.save(consent);
+    public Patient revokeConsent(Long patientId) {
+        Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new RuntimeException("Patient not found"));
+        patient.setConsentGiven(false);
+        return patientRepository.save(patient);
     }
 
     public List<AccessLog> getAccessLogs(Long patientId) {
-        List<Consent> consents = consentRepository.findByPatientId(patientId);
-        return consents.stream()
-                .flatMap(c -> accessLogRepository.findByConsentId(c.getId()).stream())
-                .toList();
+        return accessLogRepository.findAll();
     }
 }

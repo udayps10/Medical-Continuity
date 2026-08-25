@@ -1,5 +1,6 @@
 package com.medicalcontinuity.medicalcontinuity.service;
 
+import com.medicalcontinuity.medicalcontinuity.dto.UpdateRecordRequest;
 import com.medicalcontinuity.medicalcontinuity.entity.*;
 import com.medicalcontinuity.medicalcontinuity.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,6 @@ public class DoctorService {
     private RecordRepository recordRepository;
 
     @Autowired
-    private ConsentRepository consentRepository;
-
-    @Autowired
     private AccessLogRepository accessLogRepository;
 
     public Optional<Doctor> getDoctorByUserId(Long userId) {
@@ -37,17 +35,15 @@ public class DoctorService {
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new RuntimeException("Doctor not found"));
         Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new RuntimeException("Patient not found"));
 
-        Consent consent = consentRepository.findByPatientIdAndHospitalIdAndIsActive(
-                patientId, doctor.getHospital().getId(), true)
-                .orElse(null);
-
-        if (consent == null) {
+        if (!patient.isConsentGiven()) {
             Map<String, Object> err = new HashMap<>();
-            err.put("error", "No active consent from patient for this hospital");
+            err.put("error", "Patient has not given consent");
             return err;
         }
 
-        AccessLog accessLog = new AccessLog(consent, doctor.getUser());
+        AccessLog accessLog = new AccessLog();
+        accessLog.setConsent(null);
+        accessLog.setAccessedBy(doctor.getUser());
         accessLogRepository.save(accessLog);
 
         List<Visit> allVisits = visitRepository.findByPatientId(patientId);
