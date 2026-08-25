@@ -1,7 +1,7 @@
 package com.medicalcontinuity.medicalcontinuity.service;
 
-import com.medicalcontinuity.medicalcontinuity.entity.Consent;
-import com.medicalcontinuity.medicalcontinuity.repositories.ConsentRepository;
+import com.medicalcontinuity.medicalcontinuity.entity.*;
+import com.medicalcontinuity.medicalcontinuity.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +15,19 @@ public class ConsentService {
     @Autowired
     private ConsentRepository consentRepository;
 
+    @Autowired
+    private AccessLogRepository accessLogRepository;
+
     public List<Consent> getAllConsents() {
         return consentRepository.findAll();
     }
 
     public Optional<Consent> getConsentById(Long id) {
         return consentRepository.findById(id);
+    }
+
+    public List<Consent> getByPatientId(Long patientId) {
+        return consentRepository.findByPatientId(patientId);
     }
 
     public Consent createConsent(Consent consent) {

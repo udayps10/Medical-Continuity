@@ -1,49 +1,46 @@
 package com.medicalcontinuity.medicalcontinuity.controller;
 
-import com.medicalcontinuity.medicalcontinuity.entity.Doctor;
+import com.medicalcontinuity.medicalcontinuity.dto.*;
+import com.medicalcontinuity.medicalcontinuity.entity.*;
 import com.medicalcontinuity.medicalcontinuity.service.DoctorService;
+import com.medicalcontinuity.medicalcontinuity.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/doctors")
+@RequestMapping("/doctor")
 public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
 
-    @GetMapping
-    public List<Doctor> getAllDoctors() {
-        return doctorService.getAllDoctors();
+    @Autowired
+    private AuthService authService;
+
+    @GetMapping("/patient/{patientId}/summary")
+    public ResponseEntity<Map<String, Object>> getPatientSummary(
+            @RequestHeader("Authorization") String auth,
+            @PathVariable Long patientId) {
+        Long userId = authService.getUserIdFromToken(auth.replace("Bearer ", ""));
+        Doctor doctor = doctorService.getDoctorByUserId(userId).orElseThrow(() -> new RuntimeException("Doctor not found"));
+        return ResponseEntity.ok(doctorService.getPatientSummary(patientId, doctor.getId()));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Doctor> getDoctorById(@PathVariable Long id) {
-        return doctorService.getDoctorById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @PostMapping("/visit")
+    public ResponseEntity<Visit> createVisit(@RequestBody CreateVisitRequest req) {
+        return ResponseEntity.ok(doctorService.createVisit(req));
     }
 
-    @PostMapping
-    public Doctor createDoctor(@RequestBody Doctor doctor) {
-        return doctorService.createDoctor(doctor);
+    @PostMapping("/record")
+    public ResponseEntity<Record> addRecord(@RequestBody CreateRecordRequest req) {
+        return ResponseEntity.ok(doctorService.addRecord(req));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id, @RequestBody Doctor doctorDetails) {
-        try {
-            return ResponseEntity.ok(doctorService.updateDoctor(id, doctorDetails));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDoctor(@PathVariable Long id) {
-        doctorService.deleteDoctor(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/record/{id}")
+    public ResponseEntity<Record> updateRecord(@PathVariable Long id, @RequestBody UpdateRecordRequest req) {
+        return ResponseEntity.ok(doctorService.updateRecord(id, req));
     }
 }

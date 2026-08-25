@@ -1,12 +1,12 @@
 package com.medicalcontinuity.medicalcontinuity.service;
 
-import com.medicalcontinuity.medicalcontinuity.entity.Doctor;
-import com.medicalcontinuity.medicalcontinuity.repositories.DoctorRepository;
+import com.medicalcontinuity.medicalcontinuity.entity.*;
+import com.medicalcontinuity.medicalcontinuity.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DoctorService {
@@ -14,25 +14,92 @@ public class DoctorService {
     @Autowired
     private DoctorRepository doctorRepository;
 
-    public List<Doctor> getAllDoctors() {
-        return doctorRepository.findAll();
+    @Autowired
+    private PatientRepository patientRepository;
+
+    @Autowired
+    private VisitRepository visitRepository;
+
+    @Autowired
+    private RecordRepository recordRepository;
+
+    @Autowired
+    private ConsentRepository consentRepository;
+
+    @Autowired
+    private AccessLogRepository accessLogRepository;
+
+    public Optional<Doctor> getDoctorByUserId(Long userId) {
+        return doctorRepository.findByUserId(userId);
     }
 
-    public Optional<Doctor> getDoctorById(Long id) {
-        return doctorRepository.findById(id);
+    public Map<String, Object> getPatientSummary(Long patientId, Long doctorId) {
+        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new RuntimeException("Doctor not found"));
+        Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new RuntimeException("Patient not found"));
+
+        Consent consent = consentRepository.findByPatientIdAndHospitalIdAndIsActive(
+                patientId, doctor.getHospital().getId(), true)
+                .orElse(null);
+
+        if (consent == null) {
+            Map<String, Object> err = new HashMap<>();
+            err.put("error", "No active consent from patient for this hospital");
+            return err;
+        }
+
+        AccessLog accessLog = new AccessLog(consent, doctor.getUser());
+        accessLogRepository.save(accessLog);
+
+        List<Visit> allVisits = visitRepository.findByPatientId(patientId);
+        List<Record> allRecords = allVisits.stream()
+                .flatMap(v -> recordRepository.findByVisitId(v.getId()).stream())
+                .collect(Collectors.toList());
+
+        Map<String, Object> summary = new HashMap<>();
+        summary.put("allergy_alert", patient.getAllergies());
+        summary.put("total_visits", allVisits.size());
+        summary.put("total_records", allRecords.size());
+        summary.put("visits", allVisits);
+        summary.put("records", allRecords);
+        return summary;
     }
 
-    public Doctor createDoctor(Doctor doctor) {
-        return doctorRepository.save(doctor);
+    public Visit createVisit(CreateVisitRequest req) {
+        Patient patient = patientRepository.findById(req.getPatientId()).orElseThrow(() -> new RuntimeException("Patient not found"));
+        Hospital hospital = new Hospital();
+        hospital.setId(req.getHospitalId());
+        Doctor doctor = doctorRepository.findById(req.getDoctorId()).orElseThrow(() -> new RuntimeException("Doctor not found"));
+        Visit visit = new Visit();
+        visit.setPatient(patient);
+        visit.setHospital(hospital);
+        visit.setDoctor(doctor);
+        visit.setDate(req.getDate());
+        visit.setChiefComplaint(req.getChiefComplaint());
+        return visitRepository.save(visit);
     }
 
-    public Doctor updateDoctor(Long id, Doctor doctorDetails) {
-        Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Doctor not found"));
-        doctor.setSpecialization(doctorDetails.getSpecialization());
-        return doctorRepository.save(doctor);
+    public Record addRecord(CreateRecordRequest req) {
+        Visit visit = visitRepository.findById(req.getVisitId()).orElseThrow(() -> new RuntimeException("Visit not found"));
+        Record record = new Record();
+        record.setVisit(visit);
+        record.setType(Record.Type.valueOf(req.getType().toUpperCase()));
+        record.setTitle(req.getTitle());
+        record.setDetails(req.getDetails());
+        record.setStatus(Record.Status.valueOf(req.getStatus().toUpperCase()));
+        record.setStartDate(req.getStartDate());
+        record.setEndDate(req.getEndDate());
+        record.setNotes(req.getNotes());
+        return recordRepository.save(record);
     }
 
-    public void deleteDoctor(Long id) {
-        doctorRepository.deleteById(id);
+    public Record updateRecord(Long id, UpdateRecordRequest req) {
+        Record record = recordRepository.findById(id).orElseThrow(() -> new RuntimeException("Record not found"));
+        if (req.getStatus() != null) {
+            record.setStatus(Record.Status.valueOf(req.getStatus().toUpperCase()));
+        }
+        if (req.getNotes() != null) {
+            record.setNotes(req.getNotes());
+        }
+        return recordRepository.save(record);
     }
 }

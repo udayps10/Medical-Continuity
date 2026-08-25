@@ -1,7 +1,9 @@
 package com.medicalcontinuity.medicalcontinuity.controller;
 
-import com.medicalcontinuity.medicalcontinuity.entity.Patient;
+import com.medicalcontinuity.medicalcontinuity.dto.UpdatePatientRequest;
+import com.medicalcontinuity.medicalcontinuity.entity.*;
 import com.medicalcontinuity.medicalcontinuity.service.PatientService;
+import com.medicalcontinuity.medicalcontinuity.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,41 +11,62 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/patients")
+@RequestMapping("/patient")
 public class PatientController {
 
     @Autowired
     private PatientService patientService;
 
-    @GetMapping
-    public List<Patient> getAllPatients() {
-        return patientService.getAllPatients();
-    }
+    @Autowired
+    private AuthService authService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
-        return patientService.getPatientById(id)
+    @GetMapping("/me")
+    public ResponseEntity<Patient> getMyProfile(@RequestHeader("Authorization") String auth) {
+        Long userId = authService.getUserIdFromToken(auth.replace("Bearer ", ""));
+        return patientService.getPatientByUserId(userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public Patient createPatient(@RequestBody Patient patient) {
-        return patientService.createPatient(patient);
+    @PutMapping("/me")
+    public ResponseEntity<Patient> updateMyProfile(@RequestHeader("Authorization") String auth, @RequestBody UpdatePatientRequest req) {
+        Long userId = authService.getUserIdFromToken(auth.replace("Bearer ", ""));
+        Patient patient = patientService.getPatientByUserId(userId).orElseThrow(() -> new RuntimeException("Patient not found"));
+        return ResponseEntity.ok(patientService.updatePatient(patient.getId(), req));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Patient> updatePatient(@PathVariable Long id, @RequestBody Patient patientDetails) {
-        try {
-            return ResponseEntity.ok(patientService.updatePatient(id, patientDetails));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/visits")
+    public ResponseEntity<List<Visit>> getMyVisits(@RequestHeader("Authorization") String auth) {
+        Long userId = authService.getUserIdFromToken(auth.replace("Bearer ", ""));
+        Patient patient = patientService.getPatientByUserId(userId).orElseThrow(() -> new RuntimeException("Patient not found"));
+        return ResponseEntity.ok(patientService.getVisits(patient.getId()));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
-        patientService.deletePatient(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/consents")
+    public ResponseEntity<List<Consent>> getMyConsents(@RequestHeader("Authorization") String auth) {
+        Long userId = authService.getUserIdFromToken(auth.replace("Bearer ", ""));
+        Patient patient = patientService.getPatientByUserId(userId).orElseThrow(() -> new RuntimeException("Patient not found"));
+        return ResponseEntity.ok(patientService.getConsents(patient.getId()));
+    }
+
+    @PostMapping("/consent/{hospitalId}")
+    public ResponseEntity<Consent> grantConsent(@RequestHeader("Authorization") String auth, @PathVariable Long hospitalId) {
+        Long userId = authService.getUserIdFromToken(auth.replace("Bearer ", ""));
+        Patient patient = patientService.getPatientByUserId(userId).orElseThrow(() -> new RuntimeException("Patient not found"));
+        return ResponseEntity.ok(patientService.grantConsent(patient.getId(), hospitalId));
+    }
+
+    @DeleteMapping("/consent/{hospitalId}")
+    public ResponseEntity<Consent> revokeConsent(@RequestHeader("Authorization") String auth, @PathVariable Long hospitalId) {
+        Long userId = authService.getUserIdFromToken(auth.replace("Bearer ", ""));
+        Patient patient = patientService.getPatientByUserId(userId).orElseThrow(() -> new RuntimeException("Patient not found"));
+        return ResponseEntity.ok(patientService.revokeConsent(patient.getId(), hospitalId));
+    }
+
+    @GetMapping("/access-log")
+    public ResponseEntity<List<AccessLog>> getAccessLog(@RequestHeader("Authorization") String auth) {
+        Long userId = authService.getUserIdFromToken(auth.replace("Bearer ", ""));
+        Patient patient = patientService.getPatientByUserId(userId).orElseThrow(() -> new RuntimeException("Patient not found"));
+        return ResponseEntity.ok(patientService.getAccessLogs(patient.getId()));
     }
 }
