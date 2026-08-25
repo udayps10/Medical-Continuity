@@ -20,6 +20,11 @@ public class User {
     @Column(nullable = false)
     private boolean otpVerified;
 
+    @Column(length = 6)
+    private String otp;
+
+    private LocalDateTime otpExpiry;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
@@ -63,6 +68,12 @@ public class User {
 
     public boolean isOtpVerified() { return otpVerified; }
     public void setOtpVerified(boolean otpVerified) { this.otpVerified = otpVerified; }
+
+    public String getOtp() { return otp; }
+    public void setOtp(String otp) { this.otp = otp; }
+
+    public LocalDateTime getOtpExpiry() { return otpExpiry; }
+    public void setOtpExpiry(LocalDateTime otpExpiry) { this.otpExpiry = otpExpiry; }
 
     public Role getRole() { return role; }
 
