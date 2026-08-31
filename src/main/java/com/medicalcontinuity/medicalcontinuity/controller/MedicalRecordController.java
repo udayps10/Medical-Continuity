@@ -18,11 +18,9 @@ public class MedicalRecordController {
         this.medicalRecordService = medicalRecordService;
     }
 
-    @PostMapping("/patient/{patientId}/hospital/{hospitalId}")
-    public ResponseEntity<MedicalRecord> create(@PathVariable Long patientId,
-                                                 @PathVariable Long hospitalId,
-                                                 @RequestBody MedicalRecord record) {
-        MedicalRecord created = medicalRecordService.create(patientId, hospitalId, record);
+    @PostMapping
+    public ResponseEntity<MedicalRecord> create(@RequestBody MedicalRecord record) {
+        MedicalRecord created = medicalRecordService.create(record);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
