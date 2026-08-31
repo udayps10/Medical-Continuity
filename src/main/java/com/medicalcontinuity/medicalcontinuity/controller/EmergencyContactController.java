@@ -18,10 +18,9 @@ public class EmergencyContactController {
         this.emergencyContactService = emergencyContactService;
     }
 
-    @PostMapping("/patient/{patientId}")
-    public ResponseEntity<EmergencyContact> create(@PathVariable Long patientId,
-                                                    @RequestBody EmergencyContact contact) {
-        EmergencyContact created = emergencyContactService.create(patientId, contact);
+    @PostMapping
+    public ResponseEntity<EmergencyContact> create(@RequestBody EmergencyContact contact) {
+        EmergencyContact created = emergencyContactService.create(contact);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
