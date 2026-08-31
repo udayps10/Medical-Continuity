@@ -18,11 +18,9 @@ public class PatientEncounterController {
         this.patientEncounterService = patientEncounterService;
     }
 
-    @PostMapping("/patient/{patientId}/hospital/{hospitalId}")
-    public ResponseEntity<PatientEncounter> create(@PathVariable Long patientId,
-                                                    @PathVariable Long hospitalId,
-                                                    @RequestBody PatientEncounter encounter) {
-        PatientEncounter created = patientEncounterService.create(patientId, hospitalId, encounter);
+    @PostMapping
+    public ResponseEntity<PatientEncounter> create(@RequestBody PatientEncounter encounter) {
+        PatientEncounter created = patientEncounterService.create(encounter);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
