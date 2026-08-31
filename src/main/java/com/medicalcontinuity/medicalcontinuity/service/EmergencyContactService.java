@@ -22,7 +22,8 @@ public class EmergencyContactService {
         this.patientRepository = patientRepository;
     }
 
-    public EmergencyContact create(Long patientId, EmergencyContact contact) {
+    public EmergencyContact create(EmergencyContact contact) {
+        Long patientId = contact.getPatient().getId();
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found with id: " + patientId));
         contact.setPatient(patient);
