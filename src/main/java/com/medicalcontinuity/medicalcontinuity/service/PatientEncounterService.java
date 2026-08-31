@@ -27,7 +27,9 @@ public class PatientEncounterService {
         this.hospitalRepository = hospitalRepository;
     }
 
-    public PatientEncounter create(Long patientId, Long hospitalId, PatientEncounter encounter) {
+    public PatientEncounter create(PatientEncounter encounter) {
+        Long patientId = encounter.getPatient().getId();
+        Long hospitalId = encounter.getHospital().getId();
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found with id: " + patientId));
         Hospital hospital = hospitalRepository.findById(hospitalId)
