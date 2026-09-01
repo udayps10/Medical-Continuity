@@ -394,6 +394,109 @@ AI Summary
 
 ---
 
+# 🗃️ Entity Model
+
+### Entities
+
+| Entity | Table | Description |
+|--------|-------|-------------|
+| `Patient` | `patients` | Core patient with MCID, demographics, contact info |
+| `EmergencyContact` | `emergency_contacts` | Emergency contacts linked to a patient |
+| `Hospital` | `hospitals` | Hospital with registration number |
+| `PatientEncounter` | `patient_encounters` | Patient visits/encounters at hospitals |
+| `MedicalRecord` | `medical_records` | Clinical records (diagnosis, prescriptions, lab results) |
+| `MedicalDocument` | `medical_documents` | Uploaded documents linked to records |
+| `UnknownPatient` | `unknown_patients` | Unidentified patients awaiting matching |
+| `PatientMatch` | `patient_matches` | AI-powered matching between unknown and known patients |
+| `Memory` | `memories` | Clinical notes and important patient context |
+| `AuditLog` | `audit_logs` | System audit trail for all actions |
+
+### Enums
+
+`Gender`, `EncounterType`, `RecordType`, `DocumentType`, `ProcessingStatus`, `MemoryType`, `UnknownPatientStatus`, `PatientMatchStatus`, `AuditAction`, `AuditStatus`
+
+### Relationships
+
+```text
+Patient ──1:N──> EmergencyContact
+Patient ──1:N──> PatientEncounter
+Patient ──1:N──> MedicalRecord
+Patient ──1:N──> MedicalDocument
+Patient ──1:N──> PatientMatch (candidate)
+Patient ──1:N──> Memory
+Patient ──1:N──> AuditLog
+
+Hospital ──1:N──> PatientEncounter
+Hospital ──1:N──> MedicalRecord
+
+MedicalRecord ──1:N──> MedicalDocument
+
+UnknownPatient ──1:N──> PatientMatch
+UnknownPatient ──M:1──> Patient (resolved, nullable)
+```
+
+---
+
+# 🔌 REST API Endpoints
+
+### PatientController — `/api/patients`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/patients` | Create patient |
+| GET | `/api/patients` | Get all patients |
+| GET | `/api/patients/{id}` | Get patient by ID |
+| GET | `/api/patients/mcid/{mcid}` | Get patient by MCID |
+| PUT | `/api/patients/{id}` | Update patient |
+| DELETE | `/api/patients/{id}` | Delete patient |
+
+### HospitalController — `/api/hospitals`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/hospitals` | Create hospital |
+| GET | `/api/hospitals` | Get all hospitals |
+| GET | `/api/hospitals/{id}` | Get hospital by ID |
+| PUT | `/api/hospitals/{id}` | Update hospital |
+| DELETE | `/api/hospitals/{id}` | Delete hospital |
+
+### EmergencyContactController — `/api/emergency-contacts`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/emergency-contacts` | Create contact (patient in body) |
+| GET | `/api/emergency-contacts` | Get all contacts |
+| GET | `/api/emergency-contacts/{id}` | Get contact by ID |
+| GET | `/api/emergency-contacts/patient/{patientId}` | Get contacts by patient |
+| PUT | `/api/emergency-contacts/{id}` | Update contact |
+| DELETE | `/api/emergency-contacts/{id}` | Delete contact |
+
+### PatientEncounterController — `/api/encounters`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/encounters` | Create encounter (patient/hospital in body) |
+| GET | `/api/encounters` | Get all encounters |
+| GET | `/api/encounters/{id}` | Get encounter by ID |
+| GET | `/api/encounters/patient/{patientId}` | Get encounters by patient |
+| GET | `/api/encounters/hospital/{hospitalId}` | Get encounters by hospital |
+| PUT | `/api/encounters/{id}` | Update encounter |
+| DELETE | `/api/encounters/{id}` | Delete encounter |
+
+### MedicalRecordController — `/api/medical-records`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/medical-records` | Create record (patient/hospital in body) |
+| GET | `/api/medical-records` | Get all records |
+| GET | `/api/medical-records/{id}` | Get record by ID |
+| GET | `/api/medical-records/patient/{patientId}` | Get records by patient |
+| GET | `/api/medical-records/hospital/{hospitalId}` | Get records by hospital |
+| PUT | `/api/medical-records/{id}` | Update record |
+| DELETE | `/api/medical-records/{id}` | Delete record |
+
+---
+
 # 🗃️ Example Data Model
 
 A simplified patient record could look like:
@@ -479,14 +582,14 @@ The exact interoperability layer depends on deployment requirements and availabl
 
 ### Backend
 
-* Java / Spring Boot
+* Java 21 / Spring Boot 3.2
+* Spring Data JPA
 * REST APIs
-* Authentication & Authorization
-* Medical Record Management
+* Constructor-based Dependency Injection
 
 ### Database
 
-* PostgreSQL
+* MySQL 8+
 
 ### AI Layer
 
