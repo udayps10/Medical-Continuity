@@ -2,6 +2,7 @@ package com.medicalcontinuity.medicalcontinuity.service;
 
 import com.medicalcontinuity.medicalcontinuity.entity.EmergencyContact;
 import com.medicalcontinuity.medicalcontinuity.entity.Patient;
+import com.medicalcontinuity.medicalcontinuity.exception.ResourceNotFoundException;
 import com.medicalcontinuity.medicalcontinuity.repositories.EmergencyContactRepository;
 import com.medicalcontinuity.medicalcontinuity.repositories.PatientRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class EmergencyContactService {
     public EmergencyContact create(EmergencyContact contact) {
         Long patientId = contact.getPatient().getId();
         Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new RuntimeException("Patient not found with id: " + patientId));
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + patientId));
         contact.setPatient(patient);
         return emergencyContactRepository.save(contact);
     }
@@ -33,7 +34,7 @@ public class EmergencyContactService {
     @Transactional(readOnly = true)
     public EmergencyContact getById(Long id) {
         return emergencyContactRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("EmergencyContact not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("EmergencyContact not found with id: " + id));
     }
 
     @Transactional(readOnly = true)

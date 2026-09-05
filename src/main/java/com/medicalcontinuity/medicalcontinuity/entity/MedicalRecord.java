@@ -1,6 +1,8 @@
 package com.medicalcontinuity.medicalcontinuity.entity;
 
 import com.medicalcontinuity.medicalcontinuity.enums.RecordType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,14 +32,17 @@ public class MedicalRecord {
     @Column(length = 5000)
     private String notes;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id", nullable = false)
+    @JsonIgnoreProperties({"emergencyContacts", "encounters", "medicalRecords", "medicalDocuments", "patientMatches", "memories", "auditLogs"})
     private Patient patient;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hospital_id", nullable = false)
+    @JsonIgnoreProperties({"encounters", "medicalRecords"})
     private Hospital hospital;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedicalDocument> documents = new ArrayList<>();
 

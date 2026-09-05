@@ -3,6 +3,7 @@ package com.medicalcontinuity.medicalcontinuity.service;
 import com.medicalcontinuity.medicalcontinuity.entity.Hospital;
 import com.medicalcontinuity.medicalcontinuity.entity.Patient;
 import com.medicalcontinuity.medicalcontinuity.entity.PatientEncounter;
+import com.medicalcontinuity.medicalcontinuity.exception.ResourceNotFoundException;
 import com.medicalcontinuity.medicalcontinuity.repositories.HospitalRepository;
 import com.medicalcontinuity.medicalcontinuity.repositories.PatientEncounterRepository;
 import com.medicalcontinuity.medicalcontinuity.repositories.PatientRepository;
@@ -31,9 +32,9 @@ public class PatientEncounterService {
         Long patientId = encounter.getPatient().getId();
         Long hospitalId = encounter.getHospital().getId();
         Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new RuntimeException("Patient not found with id: " + patientId));
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + patientId));
         Hospital hospital = hospitalRepository.findById(hospitalId)
-                .orElseThrow(() -> new RuntimeException("Hospital not found with id: " + hospitalId));
+                .orElseThrow(() -> new ResourceNotFoundException("Hospital not found with id: " + hospitalId));
         encounter.setPatient(patient);
         encounter.setHospital(hospital);
         return patientEncounterRepository.save(encounter);
@@ -42,7 +43,7 @@ public class PatientEncounterService {
     @Transactional(readOnly = true)
     public PatientEncounter getById(Long id) {
         return patientEncounterRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("PatientEncounter not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("PatientEncounter not found with id: " + id));
     }
 
     @Transactional(readOnly = true)

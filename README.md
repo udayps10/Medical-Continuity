@@ -495,6 +495,39 @@ UnknownPatient ──M:1──> Patient (resolved, nullable)
 | PUT | `/api/medical-records/{id}` | Update record |
 | DELETE | `/api/medical-records/{id}` | Delete record |
 
+### MedicalDocumentController — `/api/medical-documents`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/medical-documents` | Create document metadata |
+| GET | `/api/medical-documents/{id}` | Get document by ID |
+| GET | `/api/medical-documents/patient/{patientId}` | Get documents by patient |
+| GET | `/api/medical-documents/medical-record/{medicalRecordId}` | Get documents by medical record |
+| PUT | `/api/medical-documents/{id}` | Update document |
+| DELETE | `/api/medical-documents/{id}` | Delete document |
+
+### UnknownPatientController — `/api/unknown-patients`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/unknown-patients` | Create unknown patient (auto-generates TEMP-xxxxx ID) |
+| GET | `/api/unknown-patients` | Get all unknown patients |
+| GET | `/api/unknown-patients/{id}` | Get unknown patient by ID |
+| GET | `/api/unknown-patients/temporary/{temporaryId}` | Get unknown patient by temp ID |
+| PUT | `/api/unknown-patients/{id}` | Update unknown patient |
+| PUT | `/api/unknown-patients/{id}/resolve/{patientId}` | Resolve to existing patient |
+| DELETE | `/api/unknown-patients/{id}` | Delete unknown patient |
+
+### PatientMatchController — `/api/patient-matches`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/patient-matches` | Create candidate match |
+| GET | `/api/patient-matches/{id}` | Get match by ID |
+| GET | `/api/patient-matches/unknown-patient/{unknownPatientId}` | Get matches by unknown patient |
+| PUT | `/api/patient-matches/{id}/status?status=X&reviewedBy=Y` | Update match status |
+| DELETE | `/api/patient-matches/{id}` | Delete match |
+
 ---
 
 # 🗃️ Example Data Model
@@ -682,13 +715,19 @@ Medical Continuity attempts to solve that problem by transforming fragmented med
 
 # 🔮 Future Roadmap
 
-### Phase 1 — Prototype
+### Phase 1 — Backend Foundation ✅
 
-* [x] Patient records concept
-* [x] Medical document ingestion
-* [x] AI/OCR extraction concept
-* [x] Structured patient timeline
-* [x] AI-generated summaries
+* [x] Patient CRUD + MCID lookup
+* [x] Hospital CRUD + registration number uniqueness
+* [x] EmergencyContact CRUD + patient lookup
+* [x] PatientEncounter CRUD + patient/hospital lookup
+* [x] MedicalRecord CRUD + patient/hospital lookup
+* [x] MedicalDocument metadata CRUD + patient/record lookup
+* [x] UnknownPatient CRUD + TEMP-xxxxx ID generation + resolve to patient
+* [x] PatientMatch CRUD + status updates (PENDING/CONFIRMED/APPROVED/REJECTED)
+* [x] Global exception handling (404 Not Found, 409 Conflict, 400 Validation)
+* [x] Entity relationships verified and tested
+* [x] Database integrity constraints (unique keys, foreign keys, cascades)
 
 ### Phase 2 — Intelligent Retrieval
 

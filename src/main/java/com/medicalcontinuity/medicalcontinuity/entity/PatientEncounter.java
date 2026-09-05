@@ -1,6 +1,7 @@
 package com.medicalcontinuity.medicalcontinuity.entity;
 
 import com.medicalcontinuity.medicalcontinuity.enums.EncounterType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -28,12 +29,14 @@ public class PatientEncounter {
     @Column(length = 2000)
     private String notes;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id", nullable = false)
+    @JsonIgnoreProperties({"emergencyContacts", "encounters", "medicalRecords", "medicalDocuments", "patientMatches", "memories", "auditLogs"})
     private Patient patient;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hospital_id", nullable = false)
+    @JsonIgnoreProperties({"encounters", "medicalRecords"})
     private Hospital hospital;
 
     public PatientEncounter() {}

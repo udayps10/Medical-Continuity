@@ -1,6 +1,7 @@
 package com.medicalcontinuity.medicalcontinuity.entity;
 
 import com.medicalcontinuity.medicalcontinuity.enums.PatientMatchStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,12 +30,14 @@ public class PatientMatch {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "unknown_patient_id", nullable = false)
+    @JsonIgnoreProperties({"patientMatches"})
     private UnknownPatient unknownPatient;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "candidate_patient_id", nullable = false)
+    @JsonIgnoreProperties({"patientMatches", "emergencyContacts", "encounters", "medicalRecords", "medicalDocuments", "memories", "auditLogs"})
     private Patient candidatePatient;
 
     @PrePersist

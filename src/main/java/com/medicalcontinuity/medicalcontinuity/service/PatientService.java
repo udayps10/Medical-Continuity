@@ -1,6 +1,7 @@
 package com.medicalcontinuity.medicalcontinuity.service;
 
 import com.medicalcontinuity.medicalcontinuity.entity.Patient;
+import com.medicalcontinuity.medicalcontinuity.exception.ResourceNotFoundException;
 import com.medicalcontinuity.medicalcontinuity.repositories.PatientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +25,13 @@ public class PatientService {
     @Transactional(readOnly = true)
     public Patient getPatientById(Long id) {
         return patientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
     }
 
     @Transactional(readOnly = true)
     public Patient getPatientByMcid(String mcid) {
         return patientRepository.findByMcid(mcid)
-                .orElseThrow(() -> new RuntimeException("Patient not found with MCID: " + mcid));
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with MCID: " + mcid));
     }
 
     @Transactional(readOnly = true)

@@ -1,6 +1,7 @@
 package com.medicalcontinuity.medicalcontinuity.entity;
 
 import com.medicalcontinuity.medicalcontinuity.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -55,6 +56,7 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedicalDocument> medicalDocuments = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "candidatePatient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PatientMatch> patientMatches = new ArrayList<>();
 

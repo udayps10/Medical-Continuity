@@ -1,5 +1,6 @@
 package com.medicalcontinuity.medicalcontinuity.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,9 +35,11 @@ public class Hospital {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PatientEncounter> encounters = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedicalRecord> medicalRecords = new ArrayList<>();
 

@@ -2,6 +2,7 @@ package com.medicalcontinuity.medicalcontinuity.entity;
 
 import com.medicalcontinuity.medicalcontinuity.enums.DocumentType;
 import com.medicalcontinuity.medicalcontinuity.enums.ProcessingStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -36,12 +37,14 @@ public class MedicalDocument {
     @Column(name = "processed_at")
     private LocalDateTime processedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id", nullable = false)
+    @JsonIgnoreProperties({"emergencyContacts", "encounters", "medicalRecords", "medicalDocuments", "patientMatches", "memories", "auditLogs"})
     private Patient patient;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "medical_record_id")
+    @JsonIgnoreProperties({"patient", "documents"})
     private MedicalRecord medicalRecord;
 
     @PrePersist

@@ -3,6 +3,7 @@ package com.medicalcontinuity.medicalcontinuity.service;
 import com.medicalcontinuity.medicalcontinuity.entity.Hospital;
 import com.medicalcontinuity.medicalcontinuity.entity.MedicalRecord;
 import com.medicalcontinuity.medicalcontinuity.entity.Patient;
+import com.medicalcontinuity.medicalcontinuity.exception.ResourceNotFoundException;
 import com.medicalcontinuity.medicalcontinuity.repositories.HospitalRepository;
 import com.medicalcontinuity.medicalcontinuity.repositories.MedicalRecordRepository;
 import com.medicalcontinuity.medicalcontinuity.repositories.PatientRepository;
@@ -31,9 +32,9 @@ public class MedicalRecordService {
         Long patientId = record.getPatient().getId();
         Long hospitalId = record.getHospital().getId();
         Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new RuntimeException("Patient not found with id: " + patientId));
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + patientId));
         Hospital hospital = hospitalRepository.findById(hospitalId)
-                .orElseThrow(() -> new RuntimeException("Hospital not found with id: " + hospitalId));
+                .orElseThrow(() -> new ResourceNotFoundException("Hospital not found with id: " + hospitalId));
         record.setPatient(patient);
         record.setHospital(hospital);
         return medicalRecordRepository.save(record);
@@ -42,7 +43,7 @@ public class MedicalRecordService {
     @Transactional(readOnly = true)
     public MedicalRecord getById(Long id) {
         return medicalRecordRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("MedicalRecord not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("MedicalRecord not found with id: " + id));
     }
 
     @Transactional(readOnly = true)

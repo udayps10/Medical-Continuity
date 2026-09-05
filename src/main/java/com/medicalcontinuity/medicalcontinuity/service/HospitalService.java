@@ -1,6 +1,7 @@
 package com.medicalcontinuity.medicalcontinuity.service;
 
 import com.medicalcontinuity.medicalcontinuity.entity.Hospital;
+import com.medicalcontinuity.medicalcontinuity.exception.ResourceNotFoundException;
 import com.medicalcontinuity.medicalcontinuity.repositories.HospitalRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ public class HospitalService {
     @Transactional(readOnly = true)
     public Hospital getHospitalById(Long id) {
         return hospitalRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Hospital not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Hospital not found with id: " + id));
     }
 
     @Transactional(readOnly = true)

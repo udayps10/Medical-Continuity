@@ -2,6 +2,8 @@ package com.medicalcontinuity.medicalcontinuity.entity;
 
 import com.medicalcontinuity.medicalcontinuity.enums.Gender;
 import com.medicalcontinuity.medicalcontinuity.enums.UnknownPatientStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,8 +42,10 @@ public class UnknownPatient {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resolved_patient_id")
+    @JsonIgnoreProperties({"emergencyContacts", "encounters", "medicalRecords", "medicalDocuments", "patientMatches", "memories", "auditLogs"})
     private Patient resolvedPatient;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "unknownPatient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PatientMatch> patientMatches = new ArrayList<>();
 
