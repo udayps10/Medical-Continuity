@@ -36,6 +36,7 @@ def create_patient(patient_id):
     }
 
 
+# Create 50 patients
 patients = []
 
 for i in range(1, 51):
@@ -46,16 +47,19 @@ correct = 0
 total = 0
 
 
+# Test every patient
 for patient in patients:
 
+    # Create the unknown patient
     unknown = patient.copy()
 
-    # Introduce a small name error
+    # Introduce a small spelling mistake
     if len(unknown["name"]) > 5:
         unknown["name"] = unknown["name"][:-1]
 
     results = []
 
+    # Compare unknown patient with every candidate
     for candidate in patients:
 
         if candidate["id"] == patient["id"]:
@@ -75,7 +79,7 @@ for patient in patients:
                 "score": score
             })
 
-    # Add the real patient back as the expected answer
+    # Add the real patient
     results.append({
         "id": patient["id"],
         "score": calculate_score(
@@ -84,6 +88,7 @@ for patient in patients:
         )
     })
 
+    # Highest score first
     results.sort(
         key=lambda x: x["score"],
         reverse=True
@@ -94,9 +99,24 @@ for patient in patients:
     if predicted == patient["id"]:
         correct += 1
 
+    else:
+        expected_score = next(
+            x["score"]
+            for x in results
+            if x["id"] == patient["id"]
+        )
+
+        print("❌ WRONG MATCH")
+        print("Expected:", patient["id"])
+        print("Predicted:", predicted)
+        print("Expected score:", round(expected_score, 3))
+        print("Predicted score:", round(results[0]["score"], 3))
+        print()
+
     total += 1
 
 
+# Final results
 accuracy = correct / total
 
 print("==============================")
