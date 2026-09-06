@@ -1,5 +1,8 @@
-from matching import calculate_score, age_within_range
+from matching import calculate_score, age_within_range, get_confidence
 import random
+
+
+random.seed(42)
 
 
 def create_patient(patient_id):
@@ -36,21 +39,39 @@ def create_patient(patient_id):
     }
 
 
-# Create 50 patients
+# --------------------------------
+# CREATE DATASET
+# --------------------------------
+
 patients = []
 
 for i in range(1, 51):
     patients.append(create_patient(i))
 
 
-correct = 0
+# --------------------------------
+# METRICS
+# --------------------------------
+
+top1_correct = 0
+top3_correct = 0
+
+false_positives = 0
+false_negatives = 0
+
+high_confidence = 0
+review_confidence = 0
+unresolved_confidence = 0
+
 total = 0
 
 
-# Test every patient
+# --------------------------------
+# TEST EVERY PATIENT
+# --------------------------------
+
 for patient in patients:
 
-    # Create the unknown patient
     unknown = patient.copy()
 
     # Introduce a small spelling mistake
@@ -59,7 +80,6 @@ for patient in patients:
 
     results = []
 
-    # Compare unknown patient with every candidate
     for candidate in patients:
 
         if candidate["id"] == patient["id"]:
@@ -69,6 +89,7 @@ for patient in patients:
             unknown.get("age"),
             candidate.get("age")
         ):
+
             score = calculate_score(
                 unknown,
                 candidate
@@ -80,12 +101,14 @@ for patient in patients:
             })
 
     # Add the real patient
+    real_score = calculate_score(
+        unknown,
+        patient
+    )
+
     results.append({
         "id": patient["id"],
-        "score": calculate_score(
-            unknown,
-            patient
-        )
+        "score": real_score
     })
 
     # Highest score first
@@ -94,34 +117,108 @@ for patient in patients:
         reverse=True
     )
 
+    total += 1
+
+    # --------------------------------
+    # TOP 1
+    # --------------------------------
+
     predicted = results[0]["id"]
 
     if predicted == patient["id"]:
-        correct += 1
-
+        top1_correct += 1
     else:
-        expected_score = next(
-            x["score"]
-            for x in results
-            if x["id"] == patient["id"]
-        )
+        false_positives += 1
+        false_negatives += 1
 
         print("❌ WRONG MATCH")
         print("Expected:", patient["id"])
         print("Predicted:", predicted)
-        print("Expected score:", round(expected_score, 3))
+        print("Expected score:", round(real_score, 3))
         print("Predicted score:", round(results[0]["score"], 3))
         print()
 
-    total += 1
+    # --------------------------------
+    # TOP 3
+    # --------------------------------
+
+    top3_ids = [
+        result["id"]
+        for result in results[:3]
+    ]
+
+    if patient["id"] in top3_ids:
+        top3_correct += 1
+
+    # --------------------------------
+    # CONFIDENCE
+    # --------------------------------
+
+    confidence = get_confidence(results[0]["score"])
+
+    if confidence == "HIGH":
+        high_confidence += 1
+
+    elif confidence == "REVIEW":
+        review_confidence += 1
+
+    else:
+        unresolved_confidence += 1
 
 
-# Final results
-accuracy = correct / total
+# --------------------------------
+# FINAL METRICS
+# --------------------------------
 
-print("==============================")
-print("TOTAL TESTS:", total)
-print("CORRECT:", correct)
-print("WRONG:", total - correct)
-print("ACCURACY:", round(accuracy * 100, 2), "%")
-print("==============================")
+top1_accuracy = top1_correct / total
+top3_accuracy = top3_correct / total
+
+
+print()
+print("================================")
+print("       DAY 3 EVALUATION")
+print("================================")
+
+print("Total tests:", total)
+
+print(
+    "Top-1 accuracy:",
+    round(top1_accuracy * 100, 2),
+    "%"
+)
+
+print(
+    "Top-3 accuracy:",
+    round(top3_accuracy * 100, 2),
+    "%"
+)
+
+print(
+    "False positives:",
+    false_positives
+)
+
+print(
+    "False negatives:",
+    false_negatives
+)
+
+print()
+print("Confidence distribution:")
+
+print(
+    "HIGH:",
+    high_confidence
+)
+
+print(
+    "REVIEW:",
+    review_confidence
+)
+
+print(
+    "UNRESOLVED:",
+    unresolved_confidence
+)
+
+print("================================")
