@@ -26,17 +26,19 @@ def age_within_range(age1, age2):
 
     return abs(age1 - age2) <= 10
 
-def phone_score(unknown,candidate):
+
+def phone_score(unknown, candidate):
     if not unknown.get("phone") or not candidate.get("phone"):
         return None
-phone1 =unknown.get("phone").replace(" ", "").replace("-", "").strip()
-    phone2 =candidate.get("phone").replace(" ", "").replace("-", "").strip()
+
+    phone1 = str(unknown.get("phone")).replace(" ", "").replace("-", "").strip()
+    phone2 = str(candidate.get("phone")).replace(" ", "").replace("-", "").strip()
 
     if phone1 == phone2:
         return 1
-    
- else : 
-    return 0
+    else:
+        return 0
+
 
 def location_score(unknown, candidate):
     if not unknown.get("district") or not candidate.get("district"):
@@ -76,6 +78,14 @@ def calculate_score(unknown, candidate):
             score += 1 * 0.25
 
         total_weight += 0.25
+
+    # Phone
+    if unknown.get("phone") and candidate.get("phone"):
+        phone = phone_score(unknown, candidate)
+
+        if phone is not None:
+            score += phone * 0.03
+            total_weight += 0.03
 
     # District
     district_score = location_score(unknown, candidate)
