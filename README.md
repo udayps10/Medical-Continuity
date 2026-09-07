@@ -324,6 +324,30 @@ Consultation
 # 🏗️ System Architecture
 
 ```text
+Medical-Continuity/
+├── backend/                    ← Spring Boot 3.2 (Java 21)
+│   ├── pom.xml
+│   └── src/
+│       └── main/java/
+│           └── com.medicalcontinuity.medicalcontinuity/
+│               ├── controller/     REST API Controllers
+│               ├── service/        Business Logic
+│               ├── entity/         JPA Entities
+│               ├── repositories/   Spring Data JPA
+│               ├── enums/          Status/Type enums
+│               └── exception/      Global Exception Handling
+│
+├── ai-service/                 ← Flask (Python)
+│   ├── app.py                  Flask API with /match endpoint
+│   ├── matching.py             Patient matching algorithm
+│   └── evaluate.py             Accuracy evaluation script
+│
+└── README.md
+```
+
+### Backend (Spring Boot)
+
+```text
                     ┌──────────────────┐
                     │     Patient      │
                     └────────┬─────────┘
@@ -337,6 +361,7 @@ Consultation
                              ▼
               ┌────────────────────────────┐
               │   Medical Continuity API   │
+              │      (Spring Boot)         │
               └─────────────┬──────────────┘
                             │
               ┌─────────────┼─────────────┐
@@ -357,6 +382,34 @@ Consultation
                    ┌─────────────────┐
                    │ Doctor Dashboard│
                    └─────────────────┘
+```
+
+### AI Service (Flask + Python)
+
+```text
+Unknown Patient Data
+        │
+        ▼
+   POST /match
+        │
+        ▼
+┌───────────────────────────────┐
+│     Patient Matching Engine    │
+├───────────────────────────────┤
+│ Face Similarity    │   30%    │
+│ Name (fuzzy)       │   40%    │
+│ Village            │   25%    │
+│ Gender             │   15%    │
+│ District           │   10%    │
+│ Phone              │    3%    │
+└───────────────────────────────┘
+        │
+        ▼
+  Scored Candidates
+  (sorted by confidence)
+        │
+        ▼
+  HIGH / REVIEW / UNRESOLVED
 ```
 
 ---
@@ -528,6 +581,13 @@ UnknownPatient ──M:1──> Patient (resolved, nullable)
 | PUT | `/api/patient-matches/{id}/status?status=X&reviewedBy=Y` | Update match status |
 | DELETE | `/api/patient-matches/{id}` | Delete match |
 
+### AI Service — Flask (port 5000)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | Health check |
+| POST | `/match` | Match unknown patient against candidates |
+
 ---
 
 # 🗃️ Example Data Model
@@ -604,38 +664,34 @@ The exact interoperability layer depends on deployment requirements and availabl
 
 # 🛠️ Technology Stack
 
-> The stack is intentionally modular and can change as the project evolves.
-
-### Frontend
-
-* React / modern web frontend
-* Responsive Doctor Dashboard
-* Patient Timeline
-* Medical Record Viewer
-
 ### Backend
 
-* Java 21 / Spring Boot 3.2
-* Spring Data JPA
-* REST APIs
-* Constructor-based Dependency Injection
+| Component | Technology |
+|-----------|------------|
+| Language | Java 21 |
+| Framework | Spring Boot 3.2 |
+| ORM | Spring Data JPA / Hibernate |
+| Database | MySQL 8+ |
+| API Style | REST |
+| Exception Handling | GlobalExceptionHandler (404/409/400) |
 
-### Database
+### AI Service
 
-* MySQL 8+
+| Component | Technology |
+|-----------|------------|
+| Language | Python 3 |
+| Framework | Flask |
+| Fuzzy Matching | rapidfuzz (token_sort_ratio) |
+| Evaluation | Custom accuracy testing |
 
-### AI Layer
+### Frontend (planned)
 
-* OCR
-* LLM-based information extraction
-* Medical document summarization
-* Semantic retrieval / RAG where appropriate
-
-### Infrastructure
-
-* Docker
-* Cloud deployment
-* Secure object storage for documents
+| Component | Technology |
+|-----------|------------|
+| Framework | React |
+| Dashboard | Responsive Doctor Dashboard |
+| Timeline | Patient Timeline |
+| Viewer | Medical Record Viewer |
 
 ---
 
@@ -728,6 +784,15 @@ Medical Continuity attempts to solve that problem by transforming fragmented med
 * [x] Global exception handling (404 Not Found, 409 Conflict, 400 Validation)
 * [x] Entity relationships verified and tested
 * [x] Database integrity constraints (unique keys, foreign keys, cascades)
+
+### Phase 1b — AI Matching Service ✅
+
+* [x] Flask API with `/match` endpoint
+* [x] Fuzzy name matching (rapidfuzz token_sort_ratio)
+* [x] Weighted scoring (Face 30%, Name 40%, Village 25%, Gender 15%, District 10%, Phone 3%)
+* [x] Confidence levels (HIGH/REVIEW/UNRESOLVED)
+* [x] Age range filtering
+* [x] Accuracy evaluation script
 
 ### Phase 2 — Intelligent Retrieval
 
