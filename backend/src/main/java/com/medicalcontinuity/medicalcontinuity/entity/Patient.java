@@ -38,6 +38,9 @@ public class Patient {
     @Column(length = 100)
     private String village;
 
+    @Column(length = 100)
+    private String district;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -109,6 +112,9 @@ public class Patient {
 
     public String getVillage() { return village; }
     public void setVillage(String village) { this.village = village; }
+
+    public String getDistrict() { return district; }
+    public void setDistrict(String district) { this.district = district; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

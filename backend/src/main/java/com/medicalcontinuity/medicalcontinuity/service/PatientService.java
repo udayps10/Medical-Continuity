@@ -47,6 +47,7 @@ public class PatientService {
         existing.setPhone(updatedPatient.getPhone());
         existing.setAddress(updatedPatient.getAddress());
         existing.setVillage(updatedPatient.getVillage());
+        existing.setDistrict(updatedPatient.getDistrict());
         return patientRepository.save(existing);
     }
 
