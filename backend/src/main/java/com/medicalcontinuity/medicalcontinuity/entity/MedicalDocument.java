@@ -37,6 +37,12 @@ public class MedicalDocument {
     @Column(name = "processed_at")
     private LocalDateTime processedAt;
 
+    @Column(name = "uploaded_by", length = 255)
+    private String uploadedBy;
+
+    @Column(name = "stored_file_path", length = 500)
+    private String storedFilePath;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id", nullable = false)
     @JsonIgnoreProperties({"emergencyContacts", "encounters", "medicalRecords", "medicalDocuments", "patientMatches", "memories", "auditLogs"})
@@ -83,6 +89,12 @@ public class MedicalDocument {
 
     public LocalDateTime getProcessedAt() { return processedAt; }
     public void setProcessedAt(LocalDateTime processedAt) { this.processedAt = processedAt; }
+
+    public String getUploadedBy() { return uploadedBy; }
+    public void setUploadedBy(String uploadedBy) { this.uploadedBy = uploadedBy; }
+
+    public String getStoredFilePath() { return storedFilePath; }
+    public void setStoredFilePath(String storedFilePath) { this.storedFilePath = storedFilePath; }
 
     public Patient getPatient() { return patient; }
     public void setPatient(Patient patient) { this.patient = patient; }

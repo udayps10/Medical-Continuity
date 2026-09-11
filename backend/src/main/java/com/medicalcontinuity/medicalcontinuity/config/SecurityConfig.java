@@ -43,11 +43,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/patients/**").hasRole("PATIENT")
                         .requestMatchers(HttpMethod.DELETE, "/api/patients/**").hasRole("PATIENT")
 
-                        // DOCTOR can view patients and manage records
-                        .requestMatchers(HttpMethod.GET, "/api/patients/**").hasAnyRole("DOCTOR", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/encounters").hasAnyRole("DOCTOR", "ADMIN")
+                        // DOCTOR and NURSE can view patients and manage records
+                        .requestMatchers(HttpMethod.GET, "/api/patients/**").hasAnyRole("DOCTOR", "NURSE", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/encounters").hasAnyRole("DOCTOR", "NURSE", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/medical-records").hasAnyRole("DOCTOR", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/medical-documents").hasAnyRole("DOCTOR", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/medical-documents/**").hasAnyRole("DOCTOR", "NURSE", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/patient-matches").hasAnyRole("DOCTOR", "ADMIN")
 
                         // ADMIN only

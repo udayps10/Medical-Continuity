@@ -56,6 +56,7 @@ public class User {
     public enum UserRole {
         PATIENT,
         DOCTOR,
+        NURSE,
         ADMIN
     }
 }
