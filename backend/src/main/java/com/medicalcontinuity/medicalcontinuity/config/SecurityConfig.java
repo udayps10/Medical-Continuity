@@ -44,16 +44,18 @@ public class SecurityConfig {
                         .requestMatchers("/api/ai/health").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
 
-                        // PATIENT only - can create their own profile
+                        // PATIENT - can manage own profile and upload own documents
                         .requestMatchers(HttpMethod.POST, "/api/patients").hasRole("PATIENT")
                         .requestMatchers(HttpMethod.PUT, "/api/patients/**").hasRole("PATIENT")
                         .requestMatchers(HttpMethod.DELETE, "/api/patients/**").hasRole("PATIENT")
+                        .requestMatchers(HttpMethod.GET, "/api/patients/**").hasAnyRole("PATIENT", "DOCTOR", "NURSE", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/medical-documents/**").hasAnyRole("PATIENT", "DOCTOR", "NURSE", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/medical-documents/**").hasAnyRole("PATIENT", "DOCTOR", "NURSE", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/medical-records/**").hasAnyRole("PATIENT", "DOCTOR", "NURSE", "ADMIN")
 
-                        // DOCTOR and NURSE can view patients and manage records
-                        .requestMatchers(HttpMethod.GET, "/api/patients/**").hasAnyRole("DOCTOR", "NURSE", "ADMIN")
+                        // DOCTOR and NURSE can manage records and encounters
                         .requestMatchers(HttpMethod.POST, "/api/encounters").hasAnyRole("DOCTOR", "NURSE", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/medical-records").hasAnyRole("DOCTOR", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/medical-documents/**").hasAnyRole("DOCTOR", "NURSE", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/patient-matches").hasAnyRole("DOCTOR", "ADMIN")
 
                         // ADMIN only
