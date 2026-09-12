@@ -3,6 +3,7 @@ package com.medicalcontinuity.medicalcontinuity.service;
 import com.medicalcontinuity.medicalcontinuity.entity.User;
 import com.medicalcontinuity.medicalcontinuity.repositories.UserRepository;
 import com.medicalcontinuity.medicalcontinuity.security.JwtUtil;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +25,7 @@ public class AuthService implements UserDetailsService {
     public AuthService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
                        JwtUtil jwtUtil,
-                       AuthenticationManager authenticationManager) {
+                       @Lazy AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
