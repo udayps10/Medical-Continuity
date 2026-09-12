@@ -6,6 +6,7 @@ export default function Navbar() {
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path ? 'nav-link active' : 'nav-link';
+  const canViewPatients = user?.role === 'DOCTOR' || user?.role === 'NURSE' || user?.role === 'ADMIN';
 
   return (
     <nav className="navbar">
@@ -18,11 +19,11 @@ export default function Navbar() {
 
       <div className="navbar-nav">
         <Link to="/" className={isActive('/')}>Dashboard</Link>
-        <Link to="/patients" className={isActive('/patients')}>Patients</Link>
-        <Link to="/encounters" className={isActive('/encounters')}>Encounters</Link>
-        <Link to="/medical-records" className={isActive('/medical-records')}>Records</Link>
-        <Link to="/documents" className={isActive('/documents')}>Documents</Link>
-        <Link to="/unknown-patients" className={isActive('/unknown-patients')}>Unknown</Link>
+        {canViewPatients && <Link to="/patients" className={isActive('/patients')}>Patients</Link>}
+        {canViewPatients && <Link to="/encounters" className={isActive('/encounters')}>Encounters</Link>}
+        {user?.role === 'DOCTOR' && <Link to="/medical-records" className={isActive('/medical-records')}>Records</Link>}
+        {(user?.role === 'DOCTOR' || user?.role === 'NURSE') && <Link to="/documents" className={isActive('/documents')}>Documents</Link>}
+        {canViewPatients && <Link to="/unknown-patients" className={isActive('/unknown-patients')}>Unknown</Link>}
       </div>
 
       <div className="navbar-user">
