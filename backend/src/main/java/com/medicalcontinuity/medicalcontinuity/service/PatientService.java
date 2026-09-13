@@ -48,6 +48,10 @@ public class PatientService {
         existing.setAddress(updatedPatient.getAddress());
         existing.setVillage(updatedPatient.getVillage());
         existing.setDistrict(updatedPatient.getDistrict());
+        existing.setWeight(updatedPatient.getWeight());
+        existing.setHeight(updatedPatient.getHeight());
+        existing.setAllergies(updatedPatient.getAllergies());
+        existing.setBloodGroup(updatedPatient.getBloodGroup());
         return patientRepository.save(existing);
     }
 
