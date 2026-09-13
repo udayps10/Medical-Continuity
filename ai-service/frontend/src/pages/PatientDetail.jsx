@@ -15,6 +15,8 @@ export default function PatientDetail() {
   const [editForm, setEditForm] = useState({});
 
   const isDoctor = user?.role === 'DOCTOR';
+  const isNurse = user?.role === 'NURSE';
+  const canEdit = isDoctor || isNurse;
 
   useEffect(() => { loadData(); }, [id]);
 
@@ -66,7 +68,7 @@ export default function PatientDetail() {
           <h1>{patient.name}</h1>
           <p style={{ color: 'var(--gray-500)' }}>MCID: {patient.mcid}</p>
         </div>
-        {isDoctor && !editing && (
+        {canEdit && !editing && (
           <button className="btn btn-primary" onClick={() => setEditing(true)}>Edit Health Info</button>
         )}
       </div>

@@ -46,7 +46,7 @@ public class SecurityConfig {
 
                         // PATIENT - can manage own profile and upload own documents
                         .requestMatchers(HttpMethod.POST, "/api/patients").hasRole("PATIENT")
-                        .requestMatchers(HttpMethod.PUT, "/api/patients/**").hasAnyRole("PATIENT", "DOCTOR")
+                        .requestMatchers(HttpMethod.PUT, "/api/patients/**").hasAnyRole("PATIENT", "DOCTOR", "NURSE")
                         .requestMatchers(HttpMethod.DELETE, "/api/patients/**").hasAnyRole("PATIENT", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/patients/**").hasAnyRole("PATIENT", "DOCTOR", "NURSE", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/medical-documents/**").hasAnyRole("PATIENT", "DOCTOR", "NURSE", "ADMIN")
