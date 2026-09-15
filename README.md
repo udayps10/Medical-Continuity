@@ -1,472 +1,336 @@
-# 🏥 Medical Continuity
+# Medical Continuity
 
-> **A unified, AI-powered medical history continuity platform that helps doctors access the right patient information at the right time — even when records are fragmented across hospitals.**
-
-## 🚨 The Problem
-
-A patient's medical history is often scattered across multiple hospitals, clinics, laboratories, prescriptions, and paper documents.
-
-Imagine:
-
-1. A patient is treated at **Hospital A**.
-2. They receive X-rays, blood tests, diagnoses, prescriptions, and discharge summaries.
-3. Six months later, they visit **Hospital B**.
-4. Hospital B may not have access to the patient's previous records.
-5. The patient has to explain their history again or carry physical documents.
-
-This creates:
-
-* ❌ Fragmented medical histories
-* ❌ Repeated tests
-* ❌ Delayed diagnosis
-* ❌ Medication/allergy risks
-* ❌ Loss of important historical information
-* ❌ Poor continuity between healthcare providers
+A unified medical history continuity platform that helps doctors access the right patient information at the right time.
 
 ---
 
-# 💡 Our Solution
+## Problem
 
-**Medical Continuity** creates a patient-centric layer that brings fragmented medical information together.
-
-Instead of forcing doctors to search through dozens of documents, the system can:
-
-> **Fetch → Extract → Understand → Organize → Summarize → Present**
-
-the patient's relevant medical history.
-
-The goal is not to replace doctors.
-
-The goal is to give doctors **better context before they make decisions.**
+A patient's medical history is scattered across multiple hospitals, clinics, and paper documents. When they visit a new hospital, doctors have no access to previous records.
 
 ---
 
-# 🎯 Core Vision
+## Solution
 
-### "Your medical history should follow you, not your hospital."
-
-Medical Continuity aims to provide a secure and intelligent health-history layer where information from different sources can be transformed into a structured timeline.
-
-For example:
+Medical Continuity creates a patient-centric layer that brings fragmented medical information together.
 
 ```text
-Patient
-   │
-   ├── Hospital A
-   │     ├── Blood Tests
-   │     ├── X-Ray
-   │     ├── Diagnosis
-   │     └── Prescription
-   │
-   ├── Hospital B
-   │     ├── Consultation
-   │     └── Lab Report
-   │
-   └── Hospital C
-         ├── Surgery
-         └── Discharge Summary
-                │
-                ▼
-        Medical Continuity
-                │
-        ┌───────┴────────┐
-        ▼                ▼
- Structured Timeline   AI Summary
-        │                │
-        └───────┬────────┘
-                ▼
-          Doctor Dashboard
-```
-
----
-
-# ✨ Key Features
-
-## 1. 🧑‍⚕️ Unified Patient Timeline
-
-All available medical events can be organized chronologically.
-
-Example:
-
-```text
-2025-02-12
-Blood Test
-↓
-2025-03-04
-Hospital Consultation
-↓
-2025-03-08
-Diagnosis
-↓
-2025-03-15
-Surgery
-↓
-2025-03-22
-Discharge
-↓
-2025-08-10
-Follow-up
-```
-
-Doctors can quickly understand what happened and when.
-
----
-
-## 2. 🤖 AI Medical Information Extraction
-
-Medical documents may arrive as:
-
-* PDFs
-* Scanned reports
-* Images
-* Prescriptions
-* Discharge summaries
-* Laboratory reports
-
-AI/OCR can extract relevant information such as:
-
-```text
-Patient Name
-Age
-Diagnosis
-Symptoms
-Medications
-Allergies
-Lab Results
-Procedures
-Doctors
-Hospital
-Dates
-Follow-ups
-```
-
-The extracted information can then be converted into structured data.
-
----
-
-## 3. 🧠 AI-Powered Medical Summary
-
-Instead of making a doctor read multiple documents, Medical Continuity can generate a concise history.
-
-Example:
-
-```text
-PATIENT SUMMARY
-
-Previous Diagnosis:
-Type 2 Diabetes
-
-Previous Procedure:
-Appendectomy — March 2025
-
-Current Medications:
-Metformin
-Atorvastatin
-
-Important History:
-Previous hospitalization in March 2025.
-
-Recent Lab:
-HbA1c — 7.2%
-
-Potentially Relevant Records:
-March 2025 hospitalization
-June 2025 blood report
-August 2025 prescription
-```
-
-The AI is intended to **summarize existing records**, not independently diagnose the patient.
-
----
-
-# 🔍 4. Intelligent Record Retrieval
-
-When a doctor opens a patient's profile, the system can prioritize records relevant to the current consultation.
-
-For example:
-
-```text
-Doctor:
-"Patient has chest pain."
-
-             ↓
-
+Patient arrives at Hospital B
+        |
+        v
 Medical Continuity
-
-             ↓
-
-Relevant History
-├── Previous cardiac reports
-├── ECG
-├── Blood tests
-├── Previous medications
-└── Relevant hospitalizations
-```
-
-This reduces the amount of irrelevant information presented to the doctor.
-
----
-
-# 💊 5. Medication History
-
-Medical Continuity can maintain a longitudinal medication history.
-
-```text
-Medication History
-
-2025
-├── Medicine A
-├── Medicine B
-
-2026
-├── Medicine B
-└── Medicine C
-```
-
-This helps doctors understand previous treatments and changes over time.
-
----
-
-# ⚠️ 6. Important Medical Alerts
-
-The platform can surface information already present in the patient's records, such as:
-
-* Documented allergies
-* Previous medications
-* Important diagnoses
-* Previous procedures
-* Abnormal historical results
-
-Example:
-
-```text
-⚠️ IMPORTANT
-
-Patient has a documented allergy
-to Medicine X.
-
-Source:
-Hospital B — Discharge Summary
-```
-
-The system should present the source record so healthcare professionals can verify important information.
-
----
-
-# 🔐 7. Patient Data Security
-
-Medical data is highly sensitive.
-
-The architecture is therefore designed around:
-
-* Authentication
-* Authorization
-* Role-based access
-* Secure APIs
-* Encryption
-* Audit logging
-* Controlled record access
-* Patient consent/access policies
-
-Example:
-
-```text
-Patient
-   │
-   │ Permission
-   ▼
-Healthcare Provider
-   │
-   ▼
-Authorized Records
-```
-
-A doctor should only receive information they are authorized to access.
-
----
-
-# 👨‍⚕️ Doctor Workflow
-
-### Without Medical Continuity
-
-```text
-Patient arrives
-      ↓
-Doctor asks history
-      ↓
-Patient searches documents
-      ↓
-Doctor reads multiple reports
-      ↓
-Previous history reconstructed manually
-      ↓
-Consultation
-```
-
-### With Medical Continuity
-
-```text
-Patient arrives
-      ↓
-Patient identified
-      ↓
-Authorized records retrieved
-      ↓
-AI organizes relevant history
-      ↓
-Doctor reviews timeline + source records
-      ↓
-Consultation
+        |
+   +---------+-----------+
+   |                     |
+   v                     v
+Previous Records     AI Summary
+   |                     |
+   +----------+----------+
+              |
+              v
+        Doctor Dashboard
 ```
 
 ---
 
-# 🏗️ System Architecture
+## Project Structure
 
-```text
+```
 Medical-Continuity/
-├── backend/                    ← Spring Boot 3.2 (Java 21)
+├── backend/                    Spring Boot 3.2 (Java 21)
 │   ├── pom.xml
-│   └── src/
-│       └── main/java/
-│           └── com.medicalcontinuity.medicalcontinuity/
-│               ├── controller/     REST API Controllers
-│               ├── service/        Business Logic
-│               ├── entity/         JPA Entities
-│               ├── repositories/   Spring Data JPA
-│               ├── enums/          Status/Type enums
-│               └── exception/      Global Exception Handling
+│   └── src/main/java/
+│       └── com.medicalcontinuity.medicalcontinuity/
+│           ├── config/         SecurityConfig, RestTemplateConfig
+│           ├── controller/     REST API Controllers (9)
+│           ├── service/        Business Logic (10)
+│           ├── entity/         JPA Entities (11)
+│           ├── repositories/   Spring Data JPA (11)
+│           ├── enums/          Status/Type enums (10)
+│           ├── security/       JWT Authentication
+│           └── exception/      Global Exception Handling
 │
-├── ai-service/                 ← Flask (Python)
+├── ai-service/                 Flask (Python)
 │   ├── app.py                  Flask API with /match endpoint
 │   ├── matching.py             Patient matching algorithm
-│   └── evaluate.py             Accuracy evaluation script
+│   ├── embeddings.py           Sentence embeddings
+│   ├── vector_search.py        Semantic search
+│   ├── document_processing.py  Document chunking pipeline
+│   ├── rag.py                  RAG pipeline
+│   ├── evaluate.py             Accuracy evaluation
+│   ├── requirements.txt        Python dependencies
+│   └── frontend/               React (Vite)
+│       ├── src/
+│       │   ├── api.js          API service layer
+│       │   ├── AuthContext.jsx  Authentication context
+│       │   ├── components/     Navbar
+│       │   └── pages/          10 pages
+│       └── package.json
 │
 └── README.md
 ```
 
-### Backend (Spring Boot)
+---
 
-```text
-                    ┌──────────────────┐
-                    │     Patient      │
-                    └────────┬─────────┘
-                             │
-                             ▼
-                    ┌──────────────────┐
-                    │ Authentication   │
-                    │ & Authorization  │
-                    └────────┬─────────┘
-                             │
-                             ▼
-              ┌────────────────────────────┐
-              │   Medical Continuity API   │
-              │      (Spring Boot)         │
-              └─────────────┬──────────────┘
-                            │
-              ┌─────────────┼─────────────┐
-              ▼             ▼             ▼
-        ┌──────────┐  ┌───────────┐  ┌──────────┐
-        │ Records  │  │ AI / OCR  │  │ Patient  │
-        │ Service  │  │ Pipeline  │  │ Service  │
-        └────┬─────┘  └─────┬─────┘  └────┬─────┘
-             │              │             │
-             └──────────────┼─────────────┘
-                            ▼
-                   ┌─────────────────┐
-                   │ Medical Records │
-                   │    Database     │
-                   └────────┬────────┘
-                            │
-                            ▼
-                   ┌─────────────────┐
-                   │ Doctor Dashboard│
-                   └─────────────────┘
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Backend | Java 21, Spring Boot 3.2, Spring Data JPA, Hibernate |
+| Database | MySQL 8+ (H2 for dev) |
+| AI Service | Python 3, Flask, rapidfuzz, sentence-transformers |
+| Frontend | React, Vite, Axios, React Router |
+| Auth | JWT (jjwt), Spring Security, BCrypt |
+| API | REST, JSON |
+
+---
+
+## Setup
+
+### Backend
+
+```bash
+cd backend
+mvn spring-boot:run
+# Runs on http://localhost:8080
 ```
 
-### AI Service (Flask + Python)
+### AI Service
 
-```text
-Unknown Patient Data
-        │
-        ▼
-   POST /match
-        │
-        ▼
-┌───────────────────────────────┐
-│     Patient Matching Engine    │
-├───────────────────────────────┤
-│ Face Similarity    │   30%    │
-│ Name (fuzzy)       │   40%    │
-│ Village            │   25%    │
-│ Gender             │   15%    │
-│ District           │   10%    │
-│ Phone              │    3%    │
-└───────────────────────────────┘
-        │
-        ▼
-  Scored Candidates
-  (sorted by confidence)
-        │
-        ▼
-  HIGH / REVIEW / UNRESOLVED
+```bash
+cd ai-service
+pip install -r requirements.txt
+python app.py
+# Runs on http://localhost:5000
+```
+
+### Frontend
+
+```bash
+cd ai-service/frontend
+npm install
+npm run dev
+# Runs on http://localhost:3000
 ```
 
 ---
 
-# 🧩 AI Pipeline
+## Authentication
 
-```text
-Medical Document
-      │
-      ▼
-    OCR
-      │
-      ▼
-Text Extraction
-      │
-      ▼
-Medical Entity Extraction
-      │
-      ├── Diagnosis
-      ├── Medication
-      ├── Lab Results
-      ├── Procedure
-      ├── Allergy
-      └── Dates
-      │
-      ▼
-Structured Medical Record
-      │
-      ▼
-Patient Timeline
-      │
-      ▼
-AI Summary
+### Register
+
+```bash
+POST /api/auth/register
+{
+  "email": "doctor@gmail.com",
+  "password": "pass123",
+  "fullName": "Dr. Smith",
+  "role": "DOCTOR"
+}
 ```
+
+### Login
+
+```bash
+POST /api/auth/login
+{
+  "email": "doctor@gmail.com",
+  "password": "pass123"
+}
+```
+
+### Roles
+
+| Role | Access |
+|------|--------|
+| PATIENT | Create own profile, upload own documents, view own records |
+| DOCTOR | View patients, upload documents, create records, run AI matching, edit patient health info |
+| NURSE | View patients, upload documents, record encounters, edit patient health info |
+| ADMIN | Full access including hospital management |
 
 ---
 
-# 🗃️ Entity Model
+## API Endpoints
+
+### Auth — `/api/auth`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/register` | Register new user |
+| POST | `/login` | Login, returns JWT |
+
+### Patients — `/api/patients`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/` | Create patient (PATIENT only) |
+| GET | `/` | Get all patients |
+| GET | `/{id}` | Get patient by ID |
+| GET | `/mcid/{mcid}` | Get patient by MCID |
+| PUT | `/{id}` | Update patient |
+| DELETE | `/{id}` | Delete patient |
+
+**Patient Health Fields:**
+- weight (Double, kg)
+- height (Double, cm)
+- bloodGroup (String: O+, A-, B+, etc.)
+- allergies (String)
+- village, district, phone, address
+
+### Hospitals — `/api/hospitals`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/` | Create hospital (ADMIN) |
+| GET | `/` | Get all hospitals |
+| GET | `/{id}` | Get hospital by ID |
+| PUT | `/{id}` | Update hospital |
+| DELETE | `/{id}` | Delete hospital |
+
+### Emergency Contacts — `/api/emergency-contacts`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/` | Create contact |
+| GET | `/` | Get all contacts |
+| GET | `/{id}` | Get contact by ID |
+| GET | `/patient/{patientId}` | Get contacts by patient |
+| PUT | `/{id}` | Update contact |
+| DELETE | `/{id}` | Delete contact |
+
+### Encounters — `/api/encounters`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/` | Record encounter |
+| GET | `/` | Get all encounters |
+| GET | `/{id}` | Get encounter by ID |
+| GET | `/patient/{patientId}` | Get encounters by patient |
+| GET | `/hospital/{hospitalId}` | Get encounters by hospital |
+| PUT | `/{id}` | Update encounter |
+| DELETE | `/{id}` | Delete encounter |
+
+### Medical Records — `/api/medical-records`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/` | Create record |
+| GET | `/` | Get all records |
+| GET | `/{id}` | Get record by ID |
+| GET | `/patient/{patientId}` | Get records by patient |
+| GET | `/hospital/{hospitalId}` | Get records by hospital |
+| PUT | `/{id}` | Update record |
+| DELETE | `/{id}` | Delete record |
+
+### Medical Documents — `/api/medical-documents`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/upload` | Upload file (multipart) |
+| POST | `/` | Create document metadata |
+| GET | `/{id}` | Get document by ID |
+| GET | `/patient/{patientId}` | Get documents by patient |
+| GET | `/medical-record/{medicalRecordId}` | Get documents by record |
+| PUT | `/{id}` | Update document |
+| DELETE | `/{id}` | Delete document |
+
+**Upload Parameters:**
+- file — the file (PDF, image, document)
+- patientId — which patient
+- medicalRecordId — optional, link to record
+- documentType — LAB_REPORT, PRESCRIPTION, IMAGING, etc.
+
+### Unknown Patients — `/api/unknown-patients`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/` | Register unknown patient |
+| GET | `/` | Get all unknown patients |
+| GET | `/{id}` | Get by ID |
+| GET | `/temporary/{temporaryId}` | Get by TEMP ID |
+| PUT | `/{id}` | Update |
+| PUT | `/{id}/resolve/{patientId}` | Resolve to known patient |
+| DELETE | `/{id}` | Delete |
+
+### Patient Matches — `/api/patient-matches`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/` | Create match |
+| GET | `/{id}` | Get match by ID |
+| GET | `/unknown-patient/{id}` | Get matches by unknown patient |
+| PUT | `/{id}/status?status=X&reviewedBy=Y` | Update status |
+| DELETE | `/{id}` | Delete match |
+
+### AI Service — `/api/ai`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/health` | Health check |
+| GET | `/match/{unknownPatientId}` | Get AI matches |
+| POST | `/match/{unknownPatientId}` | Run match and save to DB |
+
+---
+
+## AI Matching Algorithm
+
+### Weights
+
+| Field | Weight | Why |
+|-------|--------|-----|
+| Face Similarity | 30% | Biometric — strongest signal |
+| Name (fuzzy) | 40% | Core identifier — handles misspellings |
+| Village | 25% | Geographic proximity |
+| Gender | 15% | Visually identifiable |
+| District | 10% | Location signal |
+| Phone | 3% | Bonus when available |
+
+### Confidence Levels
+
+| Level | Score | Meaning |
+|-------|-------|---------|
+| HIGH | >= 0.85 | Strong match |
+| REVIEW | >= 0.55 | Needs human review |
+| UNRESOLVED | < 0.55 | No good match |
+
+---
+
+## Frontend Pages
+
+| Page | URL | Description |
+|------|-----|-------------|
+| Login | `/login` | User login |
+| Register | `/register` | User registration with health details |
+| Dashboard | `/` | Stats + quick actions (role-based) |
+| Patients | `/patients` | Patient list + search + create |
+| Patient Detail | `/patients/:id` | Overview, encounters, records, documents |
+| Documents | `/documents` | Upload and manage (Doctor/Nurse) |
+| My Documents | `/my-documents` | Patient uploads own documents |
+| My Records | `/my-records` | Patient views own records |
+| Unknown Patients | `/unknown-patients` | Register + list |
+| AI Matching | `/unknown-patients/:id` | Run match, view scores |
+| Encounters | `/encounters` | Record patient visits |
+| Medical Records | `/medical-records` | Create and view records |
+
+---
+
+## Database Schema
 
 ### Entities
 
 | Entity | Table | Description |
 |--------|-------|-------------|
-| `Patient` | `patients` | Core patient with MCID, demographics, contact info |
-| `EmergencyContact` | `emergency_contacts` | Emergency contacts linked to a patient |
-| `Hospital` | `hospitals` | Hospital with registration number |
-| `PatientEncounter` | `patient_encounters` | Patient visits/encounters at hospitals |
-| `MedicalRecord` | `medical_records` | Clinical records (diagnosis, prescriptions, lab results) |
-| `MedicalDocument` | `medical_documents` | Uploaded documents linked to records |
-| `UnknownPatient` | `unknown_patients` | Unidentified patients awaiting matching |
-| `PatientMatch` | `patient_matches` | AI-powered matching between unknown and known patients |
-| `Memory` | `memories` | Clinical notes and important patient context |
-| `AuditLog` | `audit_logs` | System audit trail for all actions |
-
-### Enums
-
-`Gender`, `EncounterType`, `RecordType`, `DocumentType`, `ProcessingStatus`, `MemoryType`, `UnknownPatientStatus`, `PatientMatchStatus`, `AuditAction`, `AuditStatus`
+| Patient | `patients` | Core patient with MCID, demographics, health info |
+| User | `users` | Authentication (email, password, role) |
+| Hospital | `hospitals` | Hospital with registration number |
+| EmergencyContact | `emergency_contacts` | Patient emergency contacts |
+| PatientEncounter | `patient_encounters` | Patient visits at hospitals |
+| MedicalRecord | `medical_records` | Clinical records |
+| MedicalDocument | `medical_documents` | Uploaded documents + metadata |
+| UnknownPatient | `unknown_patients` | Unidentified patients |
+| PatientMatch | `patient_matches` | AI matching results |
+| Memory | `memories` | Clinical notes |
+| AuditLog | `audit_logs` | System audit trail |
 
 ### Relationships
 
@@ -485,358 +349,53 @@ Hospital ──1:N──> MedicalRecord
 MedicalRecord ──1:N──> MedicalDocument
 
 UnknownPatient ──1:N──> PatientMatch
-UnknownPatient ──M:1──> Patient (resolved, nullable)
+UnknownPatient ──M:1──> Patient (resolved)
 ```
 
 ---
 
-# 🔌 REST API Endpoints
+## Error Handling
 
-### PatientController — `/api/patients`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/patients` | Create patient |
-| GET | `/api/patients` | Get all patients |
-| GET | `/api/patients/{id}` | Get patient by ID |
-| GET | `/api/patients/mcid/{mcid}` | Get patient by MCID |
-| PUT | `/api/patients/{id}` | Update patient |
-| DELETE | `/api/patients/{id}` | Delete patient |
-
-### HospitalController — `/api/hospitals`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/hospitals` | Create hospital |
-| GET | `/api/hospitals` | Get all hospitals |
-| GET | `/api/hospitals/{id}` | Get hospital by ID |
-| PUT | `/api/hospitals/{id}` | Update hospital |
-| DELETE | `/api/hospitals/{id}` | Delete hospital |
-
-### EmergencyContactController — `/api/emergency-contacts`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/emergency-contacts` | Create contact (patient in body) |
-| GET | `/api/emergency-contacts` | Get all contacts |
-| GET | `/api/emergency-contacts/{id}` | Get contact by ID |
-| GET | `/api/emergency-contacts/patient/{patientId}` | Get contacts by patient |
-| PUT | `/api/emergency-contacts/{id}` | Update contact |
-| DELETE | `/api/emergency-contacts/{id}` | Delete contact |
-
-### PatientEncounterController — `/api/encounters`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/encounters` | Create encounter (patient/hospital in body) |
-| GET | `/api/encounters` | Get all encounters |
-| GET | `/api/encounters/{id}` | Get encounter by ID |
-| GET | `/api/encounters/patient/{patientId}` | Get encounters by patient |
-| GET | `/api/encounters/hospital/{hospitalId}` | Get encounters by hospital |
-| PUT | `/api/encounters/{id}` | Update encounter |
-| DELETE | `/api/encounters/{id}` | Delete encounter |
-
-### MedicalRecordController — `/api/medical-records`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/medical-records` | Create record (patient/hospital in body) |
-| GET | `/api/medical-records` | Get all records |
-| GET | `/api/medical-records/{id}` | Get record by ID |
-| GET | `/api/medical-records/patient/{patientId}` | Get records by patient |
-| GET | `/api/medical-records/hospital/{hospitalId}` | Get records by hospital |
-| PUT | `/api/medical-records/{id}` | Update record |
-| DELETE | `/api/medical-records/{id}` | Delete record |
-
-### MedicalDocumentController — `/api/medical-documents`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/medical-documents` | Create document metadata |
-| GET | `/api/medical-documents/{id}` | Get document by ID |
-| GET | `/api/medical-documents/patient/{patientId}` | Get documents by patient |
-| GET | `/api/medical-documents/medical-record/{medicalRecordId}` | Get documents by medical record |
-| PUT | `/api/medical-documents/{id}` | Update document |
-| DELETE | `/api/medical-documents/{id}` | Delete document |
-
-### UnknownPatientController — `/api/unknown-patients`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/unknown-patients` | Create unknown patient (auto-generates TEMP-xxxxx ID) |
-| GET | `/api/unknown-patients` | Get all unknown patients |
-| GET | `/api/unknown-patients/{id}` | Get unknown patient by ID |
-| GET | `/api/unknown-patients/temporary/{temporaryId}` | Get unknown patient by temp ID |
-| PUT | `/api/unknown-patients/{id}` | Update unknown patient |
-| PUT | `/api/unknown-patients/{id}/resolve/{patientId}` | Resolve to existing patient |
-| DELETE | `/api/unknown-patients/{id}` | Delete unknown patient |
-
-### PatientMatchController — `/api/patient-matches`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/patient-matches` | Create candidate match |
-| GET | `/api/patient-matches/{id}` | Get match by ID |
-| GET | `/api/patient-matches/unknown-patient/{unknownPatientId}` | Get matches by unknown patient |
-| PUT | `/api/patient-matches/{id}/status?status=X&reviewedBy=Y` | Update match status |
-| DELETE | `/api/patient-matches/{id}` | Delete match |
-
-### AI Service — Flask (port 5000)
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/` | Health check |
-| POST | `/match` | Match unknown patient against candidates |
+| Error | Code | When |
+|-------|------|------|
+| Not Found | 404 | Resource doesn't exist |
+| Conflict | 409 | Duplicate MCID or registration number |
+| Bad Request | 400 | Validation errors |
+| Unauthorized | 401 | Missing/invalid JWT |
+| Forbidden | 403 | Wrong role |
+| Server Error | 500 | Unexpected error |
 
 ---
 
-# 🗃️ Example Data Model
+## Feature Summary
 
-A simplified patient record could look like:
-
-```json
-{
-  "patientId": "P001",
-  "name": "Example Patient",
-  "records": [
-    {
-      "date": "2025-03-15",
-      "hospital": "Hospital A",
-      "type": "Discharge Summary",
-      "diagnosis": ["Example Diagnosis"],
-      "medications": ["Medicine A"],
-      "procedures": ["Example Procedure"],
-      "sourceDocument": "document_001.pdf"
-    }
-  ]
-}
-```
-
-The actual implementation can evolve depending on the backend and healthcare interoperability requirements.
+| Feature | Status |
+|---------|--------|
+| Patient CRUD | Done |
+| Hospital CRUD | Done |
+| Emergency Contacts | Done |
+| Patient Encounters | Done |
+| Medical Records | Done |
+| Document Upload | Done |
+| Unknown Patient Handling | Done |
+| AI Patient Matching | Done |
+| JWT Authentication | Done |
+| Role-Based Access | Done |
+| Health Profile (weight, height, allergies, blood group) | Done |
+| Doctor/Nurse can edit patient health info | Done |
+| Patient can upload own documents | Done |
+| React Frontend (blue theme) | Done |
+| Global Exception Handling | Done |
+| Database Integrity Constraints | Done |
 
 ---
 
-# 🔄 Record Processing
+## Disclaimer
 
-Medical Continuity is designed to handle both structured and unstructured information.
-
-### Structured
-
-```text
-Hospital API
-     ↓
-FHIR / Healthcare Data
-     ↓
-Medical Continuity
-```
-
-### Unstructured
-
-```text
-PDF / Image / Scan
-        ↓
-       OCR
-        ↓
-   AI Extraction
-        ↓
-Structured Record
-```
-
-This is important because real-world healthcare data is often inconsistent and may still exist in paper or scanned formats.
+Medical Continuity is a technology prototype. It does not replace doctors, clinical judgment, or emergency medical services. AI-generated information should be verified by qualified healthcare professionals.
 
 ---
 
-# 🌐 Interoperability
-
-The long-term vision is to integrate with healthcare interoperability standards and ecosystems rather than creating another isolated medical database.
-
-Potential integrations include:
-
-* FHIR-based healthcare records
-* Hospital systems
-* Diagnostic laboratories
-* Digital health ecosystems
-* Patient-provided documents
-
-The exact interoperability layer depends on deployment requirements and available APIs.
-
----
-
-# 🛠️ Technology Stack
-
-### Backend
-
-| Component | Technology |
-|-----------|------------|
-| Language | Java 21 |
-| Framework | Spring Boot 3.2 |
-| ORM | Spring Data JPA / Hibernate |
-| Database | MySQL 8+ |
-| API Style | REST |
-| Exception Handling | GlobalExceptionHandler (404/409/400) |
-
-### AI Service
-
-| Component | Technology |
-|-----------|------------|
-| Language | Python 3 |
-| Framework | Flask |
-| Fuzzy Matching | rapidfuzz (token_sort_ratio) |
-| Evaluation | Custom accuracy testing |
-
-### Frontend (planned)
-
-| Component | Technology |
-|-----------|------------|
-| Framework | React |
-| Dashboard | Responsive Doctor Dashboard |
-| Timeline | Patient Timeline |
-| Viewer | Medical Record Viewer |
-
----
-
-# 🚀 Current Prototype
-
-The current project focuses on demonstrating the core concept:
-
-```text
-Medical Documents
-       ↓
-Upload
-       ↓
-OCR / AI Extraction
-       ↓
-Structured Patient Data
-       ↓
-Medical Timeline
-       ↓
-AI Summary
-       ↓
-Doctor Dashboard
-```
-
-The prototype is primarily designed to demonstrate **medical continuity and intelligent retrieval**, rather than serve as a production clinical system.
-
----
-
-# 🧪 Example Use Case
-
-### Scenario
-
-A patient visits Hospital A for a condition.
-
-Hospital A generates:
-
-```text
-Blood Report
-X-Ray
-Diagnosis
-Prescription
-Discharge Summary
-```
-
-Later, the patient visits Hospital B.
-
-Instead of starting from zero:
-
-```text
-Hospital B
-    ↓
-Medical Continuity
-    ↓
-Patient History
-    ↓
-Relevant Previous Records
-    ↓
-AI Summary
-    ↓
-Doctor
-```
-
-The doctor can quickly understand the patient's historical context and open the original documents when necessary.
-
----
-
-# 🏆 Why This Matters
-
-Healthcare isn't only about treating today's problem.
-
-Doctors often need to know:
-
-> **"What happened to this patient before?"**
-
-Medical Continuity attempts to solve that problem by transforming fragmented medical information into a **continuous, searchable and understandable patient history**.
-
----
-
-# 🔮 Future Roadmap
-
-### Phase 1 — Backend Foundation ✅
-
-* [x] Patient CRUD + MCID lookup
-* [x] Hospital CRUD + registration number uniqueness
-* [x] EmergencyContact CRUD + patient lookup
-* [x] PatientEncounter CRUD + patient/hospital lookup
-* [x] MedicalRecord CRUD + patient/hospital lookup
-* [x] MedicalDocument metadata CRUD + patient/record lookup
-* [x] UnknownPatient CRUD + TEMP-xxxxx ID generation + resolve to patient
-* [x] PatientMatch CRUD + status updates (PENDING/CONFIRMED/APPROVED/REJECTED)
-* [x] Global exception handling (404 Not Found, 409 Conflict, 400 Validation)
-* [x] Entity relationships verified and tested
-* [x] Database integrity constraints (unique keys, foreign keys, cascades)
-
-### Phase 1b — AI Matching Service ✅
-
-* [x] Flask API with `/match` endpoint
-* [x] Fuzzy name matching (rapidfuzz token_sort_ratio)
-* [x] Weighted scoring (Face 30%, Name 40%, Village 25%, Gender 15%, District 10%, Phone 3%)
-* [x] Confidence levels (HIGH/REVIEW/UNRESOLVED)
-* [x] Age range filtering
-* [x] Accuracy evaluation script
-
-### Phase 2 — Intelligent Retrieval
-
-* [ ] Semantic medical record search
-* [ ] Context-aware record retrieval
-* [ ] Source-aware AI responses
-* [ ] Advanced medical timeline
-
-### Phase 3 — Interoperability
-
-* [ ] FHIR integration
-* [ ] Hospital integrations
-* [ ] Laboratory integrations
-* [ ] Digital health ecosystem integration
-
-### Phase 4 — Production
-
-* [ ] Strong identity verification
-* [ ] Consent management
-* [ ] Advanced audit logging
-* [ ] Encryption and key management
-* [ ] Compliance/security assessment
-* [ ] High-availability infrastructure
-
----
-
-# ⚠️ Important Disclaimer
-
-Medical Continuity is a **technology prototype/concept** intended to demonstrate healthcare information continuity.
-
-It does **not** replace doctors, clinical judgment, diagnosis, or emergency medical services.
-
-AI-generated information should be treated as an assistive summary and verified against the original medical records by qualified healthcare professionals.
-
----
-
-# 👥 Team
-
-**Medical Continuity**
-
-Building technology for a future where a patient's medical history doesn't get lost between hospitals.
-
----
-
-## ⭐ Vision
+## Vision
 
 > **One patient. One continuous medical history. Anywhere they receive care.**
