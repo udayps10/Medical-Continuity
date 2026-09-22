@@ -42,6 +42,10 @@ public class MedicalRecordService {
         existing.setNotes(updated.getNotes());
         return medicalRecordRepository.save(existing);
     }
+    @Transactional(readOnly = true)
+    public List<MedicalRecord> findByPatientIdOrderByRecordDateDesc(Long patientId) {
+        return medicalRecordRepository.findByPatientIdOrderByRecordDateDesc(patientId);
+    }
 
     public void delete(Long id) {
         medicalRecordRepository.deleteById(id);

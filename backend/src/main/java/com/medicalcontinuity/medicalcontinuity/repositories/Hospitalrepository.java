@@ -1,6 +1,6 @@
-package com.drn.repository;
+package com.medicalcontinuity.medicalcontinuity.repository;
 
-import com.drn.entity.Hospital;
+import com.medicalcontinuity.medicalcontinuity.entity.Hospital;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

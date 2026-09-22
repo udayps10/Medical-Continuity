@@ -1,4 +1,4 @@
-package com.drn.entity;
+package com.medicalcontinuity.medicalcontinuity.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
