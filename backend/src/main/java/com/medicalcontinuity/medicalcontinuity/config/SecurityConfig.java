@@ -42,8 +42,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/unknown-patients/**").permitAll()
                         .requestMatchers("/api/ai/health").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
-
                         // PATIENT - can manage own profile and upload own documents
                         .requestMatchers(HttpMethod.POST, "/api/patients").hasRole("PATIENT")
                         .requestMatchers(HttpMethod.PUT, "/api/patients/**").hasAnyRole("PATIENT", "DOCTOR", "NURSE")
@@ -65,7 +63,6 @@ public class SecurityConfig {
                         // Default
                         .anyRequest().authenticated()
                 )
-                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
