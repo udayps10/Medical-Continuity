@@ -1,4 +1,4 @@
-package com.drn.repository;
+
 
 import com.drn.entity.DocumentChunk;
 import org.springframework.data.jpa.repository.JpaRepository;
