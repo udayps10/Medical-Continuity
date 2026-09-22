@@ -18,7 +18,9 @@ public class MedicalDocumentService {
     private final MedicalDocumentRepository medicalDocumentRepository;
 
     public MedicalDocument upload(MedicalDocument document) {
-        document.setProcessingStatus(MedicalDocument.ProcessingStatus.PENDING);
+        if (document.getProcessingStatus() == null) {
+            document.setProcessingStatus(MedicalDocument.ProcessingStatus.PENDING);
+        }
         return medicalDocumentRepository.save(document);
     }
 

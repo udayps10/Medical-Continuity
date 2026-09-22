@@ -17,7 +17,9 @@ public class AiSummaryService {
     private final AiSummaryRepository aiSummaryRepository;
 
     public AiSummary create(AiSummary summary) {
-        summary.setStatus(AiSummary.Status.DRAFT);
+        if (summary.getStatus() == null) {
+            summary.setStatus(AiSummary.Status.DRAFT);
+        }
         return aiSummaryRepository.save(summary);
     }
 

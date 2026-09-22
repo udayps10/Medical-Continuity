@@ -1,7 +1,9 @@
 package com.medicalcontinuity.medicalcontinuity.service;
 
 import com.medicalcontinuity.medicalcontinuity.entity.UnknownPatientCase;
+import com.medicalcontinuity.medicalcontinuity.repository.PatientRepository;
 import com.medicalcontinuity.medicalcontinuity.repository.UnknownPatientCaseRepository;
+import com.medicalcontinuity.medicalcontinuity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +18,13 @@ import java.util.Optional;
 public class UnknownPatientCaseService {
 
     private final UnknownPatientCaseRepository unknownPatientCaseRepository;
+    private final PatientRepository patientRepository;
+    private final UserRepository userRepository;
 
     public UnknownPatientCase create(UnknownPatientCase unknownCase) {
-        unknownCase.setStatus(UnknownPatientCase.Status.OPEN);
+        if (unknownCase.getStatus() == null) {
+            unknownCase.setStatus(UnknownPatientCase.Status.OPEN);
+        }
         return unknownPatientCaseRepository.save(unknownCase);
     }
 
@@ -41,6 +47,10 @@ public class UnknownPatientCaseService {
         UnknownPatientCase existing = unknownPatientCaseRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown patient case not found: " + id));
         existing.setStatus(UnknownPatientCase.Status.RESOLVED);
+        existing.setResolvedPatient(patientRepository.findById(resolvedPatientId)
+                .orElseThrow(() -> new IllegalArgumentException("Patient not found: " + resolvedPatientId)));
+        existing.setResolvedByUser(userRepository.findById(resolvedByUserId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + resolvedByUserId)));
         existing.setResolvedAt(LocalDateTime.now());
         return unknownPatientCaseRepository.save(existing);
     }
