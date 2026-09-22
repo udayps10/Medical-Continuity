@@ -1,7 +1,7 @@
 package com.medicalcontinuity.medicalcontinuity.security;
 
 import com.medicalcontinuity.medicalcontinuity.entity.User;
-import com.medicalcontinuity.medicalcontinuity.repositories.UserRepository;
+import com.medicalcontinuity.medicalcontinuity.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
