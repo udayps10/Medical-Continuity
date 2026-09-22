@@ -11,11 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Register + login. Issues JWTs via the existing JwtUtil so tokens
- * are readable by the existing JwtAuthFilter without any change to
- * that filter.
- */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -32,12 +27,6 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // POST /api/auth/register
-    // Body: full User JSON (email, password, fullName, role required; leave id blank)
-    // Calls: UserRepository.existsByEmail() -> reject duplicate emails
-    //        PasswordEncoder.encode()       -> hash the raw password before storing
-    //        UserRepository.save()          -> persist the new user
-    //        JwtUtil.generateToken()        -> issue a token immediately on signup
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
@@ -52,11 +41,6 @@ public class AuthController {
         return ResponseEntity.ok(authResponse(token, saved));
     }
 
-    // POST /api/auth/login
-    // Body: { "email": "...", "password": "..." }
-    // Calls: UserRepository.findByEmail() -> look up the account
-    //        PasswordEncoder.matches()    -> verify raw password against stored hash
-    //        JwtUtil.generateToken()      -> issue a token on successful login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
         String email = body.get("email");
@@ -86,12 +70,6 @@ public class AuthController {
         return response;
     }
 
-    /**
-     * JwtUtil.generateToken() takes a Spring Security UserDetails,
-     * matching how JwtAuthFilter builds it when validating incoming
-     * tokens — kept identical here so tokens are generated the same
-     * way they're later verified.
-     */
     private org.springframework.security.core.userdetails.User toSpringUser(User user) {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())

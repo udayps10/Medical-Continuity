@@ -9,14 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * Handles photo capture for:
- *  - Patient registration (normal registration flow)
- *  - UnknownPatientCase (emergency / disaster-camp capture)
- * Both are stored in the same MinIO bucket, object key saved as
- * photoRef, so the face-matching service can pull either side
- * when computing a PatientMatch.
- */
 @RestController
 @RequestMapping("/api/photos")
 public class PhotoController {

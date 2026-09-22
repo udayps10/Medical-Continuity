@@ -25,10 +25,6 @@ public class MinioConfig {
         return this.minioClient;
     }
 
-    /**
-     * Ensures the photo bucket exists on app startup so registration
-     * and emergency-case uploads don't fail on a missing bucket.
-     */
     @PostConstruct
     public void ensurePhotoBucketExists() throws Exception {
         MinioClient client = minioClient();

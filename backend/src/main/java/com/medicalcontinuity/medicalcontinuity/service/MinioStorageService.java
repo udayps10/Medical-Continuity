@@ -14,12 +14,6 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.UUID;
 
-/**
- * Stores registration photos (Patient) and emergency-capture photos
- * (UnknownPatientCase) in MinIO. The returned object key is what
- * gets saved in Patient.photoRef / UnknownPatientCase.photoRef, and
- * is what the face-matching service later fetches for comparison.
- */
 @Service
 @RequiredArgsConstructor
 public class MinioStorageService {
@@ -27,10 +21,6 @@ public class MinioStorageService {
     private final MinioClient minioClient;
     private final MinioProperties minioProperties;
 
-    /**
-     * Uploads a photo and returns the object key to store as photoRef.
-     * prefix example: "patients" or "unknown-cases"
-     */
     public String uploadPhoto(MultipartFile file, String prefix) {
         try {
             String extension = extractExtension(file.getOriginalFilename());
@@ -51,11 +41,6 @@ public class MinioStorageService {
         }
     }
 
-    /**
-     * Returns a temporary signed URL so the frontend or the AI
-     * face-matching service can fetch the photo without direct
-     * bucket access.
-     */
     public String getPhotoUrl(String objectKey) {
         try {
             return minioClient.getPresignedObjectUrl(
