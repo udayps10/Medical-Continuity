@@ -17,21 +17,20 @@ export default function Register() {
     e.preventDefault();
     setError('');
     try {
-      const result = await register(form.email, form.password, form.fullName, form.role);
+      await register(form.email, form.password, form.fullName, form.role);
 
       if (form.role === 'PATIENT') {
         const patientData = {
           mcid: form.mcid || `MC-${Date.now()}`,
           name: form.fullName,
-          dateOfBirth: form.dateOfBirth || '2000-01-01',
+          dob: form.dateOfBirth || '2000-01-01',
           gender: form.gender,
-          phone: form.email,
+          phone: form.phone || null,
           village: form.village,
           district: form.district,
-          weight: form.weight ? parseFloat(form.weight) : null,
-          height: form.height ? parseFloat(form.height) : null,
           bloodGroup: form.bloodGroup || null,
-          allergies: form.allergies || null
+          allergies: form.allergies || null,
+          identityStatus: 'PROVISIONAL'
         };
         await patientAPI.create(patientData);
       }
